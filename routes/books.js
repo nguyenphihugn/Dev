@@ -4,7 +4,7 @@ var bookModel = require("../schemas/book");
 require("express-async-errors");
 
 router.get("/", async function (req, res, next) {
-  let limit = req.query.limit ? req.query.limit : 5;
+  let limit = req.query.limit ? req.query.limit : 4;
   let page = req.query.page ? req.query.page : 1;
   var queries = {};
   var exclude = ["sort", "page", "limit"];
