@@ -1,0 +1,140 @@
+.register-wapper {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    height: 100%;
+    .img {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        user-select: none;
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+}
+.login-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    padding: 40px;
+    transform: translate(-50%, -50%);
+    background: rgba(58, 149, 214, 0.5);
+    box-sizing: border-box;
+    box-shadow: none;
+    border-radius: 30px;
+}
+
+.login-box h2 {
+    user-select: none;
+    margin: 0 0 40px;
+    padding: 0;
+    color: white;
+    text-align: center;
+}
+
+.login-box .user-box {
+    position: relative;
+    .errorMsg {
+        color: red;
+        padding-bottom: 20px;
+    }
+}
+
+.login-box .user-box input {
+    width: 100%;
+    padding: 5px 0;
+    font-size: 15px;
+    color: white;
+    margin-bottom: 30px;
+
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+}
+.login-box .user-box label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0px 0;
+    font-size: 15px;
+    color: #fff;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+    top: -20px;
+    left: 0;
+    color: #03e9f4;
+    font-size: 17px;
+}
+.login-box form .button {
+    display: inline-block;
+    margin-right: 15px;
+    margin-top: 10px;
+}
+@import url(https://fonts.googleapis.com/css?family=BenchNine:700);
+.snip1582 {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1em;
+    font-size: 13px;
+    line-height: 1em;
+    margin: none;
+    outline: none;
+    padding: 8px 15px 8px;
+    position: relative;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.snip1582:before,
+.snip1582:after {
+    border-color: transparent;
+    -webkit-transition: all 0.25s;
+    transition: all 0.25s;
+    border-style: solid;
+    border-width: 0;
+    content: '';
+    height: 24px;
+    position: absolute;
+    width: 0px;
+}
+
+.snip1582:before {
+    border-color: white;
+    border-top-width: 2px;
+    left: 0px;
+    top: -5px;
+}
+
+.snip1582:after {
+    border-bottom-width: 2px;
+    border-color: white;
+    bottom: -5px;
+    right: 0px;
+}
+
+.snip1582:hover,
+.snip1582.hover {
+    background: transparent;
+}
+
+.snip1582:hover:before,
+.snip1582.hover:before,
+.snip1582:hover:after,
+.snip1582.hover:after {
+    height: 100%;
+    width: 100%;
+}
