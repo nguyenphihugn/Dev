@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .register-container {
+        width: 300px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+      .register-container h2 {
+        text-align: center;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
+      .form-group button {
+        width: 100%;
+        padding: 8px;
+        border: none;
+        border-radius: 3px;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+      }
+      .form-group button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="register-container">
+      <h2>Register</h2>
+      <form id="registerForm" method="post">
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        <div class="form-group">
+          <button type="submit">Register</button>
+        </div>
+      </form>
+    </div>
+    <script>
+      $(document).ready(function () {
+        $("form").submit(function (event) {
+          var username = $("#username").val();
+          var password = $("#password").val();
+          var email = $("#email").val();
+
+          $.ajax({
+            url: "http://localhost:3000/auth/register",
+            method: "POST",
+            data: {
+              username: username,
+              password: password,
+              email: email,
+            },
+            success: function (response) {
+              // Xử lý khi đăng ký thành công
+              window.location.href = "login.html";
+              console.log(response);
+            },
+            error: function (xhr, status, error) {
+              // Xử lý khi đăng ký thất bại
+              window.location.href = "fall.html";
+              console.log(error);
+            },
+          });
+          return false; // == e.preventDefault();
+        });
+      });
+    </script>
+  </body>
+</html>
