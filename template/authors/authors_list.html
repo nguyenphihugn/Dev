@@ -1,51 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Authors API</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Authors API</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center mb-5">Authors API</h1>
 
-<body>
-  <div class="container mt-5">
-    <h1 class="text-center mb-5">Authors API</h1>
+      <h2 class="mb-3">Get All Authors</h2>
 
-    <h2 class="mb-3">Get All Authors</h2>
+      <div class="container mt-3">
+        <div class="d-flex gap-3 mb-4">
+          <form action="./authors_add.html">
+            <button type="submit" class="btn btn-primary">Add Author</button>
+          </form>
+          <form action="/template/fishingRods/fishingRods_list.html">
+            <button type="submit" class="btn btn-info">Back Item List</button>
+          </form>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th>Name</th>
 
-    <div class="container mt-3">
-      <div class="d-flex gap-3 mb-4">
-        <form action="./authors_add.html">
-          <button type="submit" class="btn btn-primary">Add Author</button>
-        </form>
-        <form action="/template/fishingRods/fishingRods_list.html">
-          <button type="submit" class="btn btn-info">Back Item List</button>
-        </form>
-      </div>    
-      <div class="table-responsive">
-        <table class="table">
-          <thead class="thead-dark">
-            <tr>
-              <th>Name</th>
-
-              <th>
-                FishingRod Name
-              </th>
-            </tr>
-          </thead>
-          <tbody id="author-list"></tbody>
-        </table>
+                <th>FishingRod Name</th>
+              </tr>
+            </thead>
+            <tbody id="author-list"></tbody>
+          </table>
+        </div>
+        <!-- Add the pagination links here -->
+        <nav aria-label="Page navigation" class="d-flex justify-content-center">
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+          </ul>
+        </nav>
       </div>
-      <!-- Add the pagination links here -->
-      <nav aria-label="Page navigation" class="d-flex justify-content-center">
-        <ul class="pagination">
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-        </ul>
-      </nav>
     </div>
     <script>
       // $(document).ready(function () {
@@ -96,29 +97,26 @@
 
           nameCell.textContent = author.name;
           // const publishedNames = author.published.map(item => item.name).join(", ");
-          const publishedParas = author.published.map(item => `<p>${item.name}</p>`);
-          publishedCell.innerHTML = publishedParas.join('');
+          const publishedParas = author.published.map(
+            (item) => `<p>${item.name}</p>`
+          );
+          publishedCell.innerHTML = publishedParas.join("");
           // publishedCell.textContent = publishedNames;
 
           // Add an event listener to the delete button
           //deleteButton.addEventListener("click", () => {
-            //deleteAuthor(author._id);
+          //deleteAuthor(author._id);
           //});
 
           editButton.addEventListener("click", () => {
             editAuthor(author._id);
           });
 
-        
-
-
-
-
           row.appendChild(nameCell);
           row.appendChild(publishedCell);
           //deleteCell.appendChild(deleteButton);
           // editCell.appendChild(editButton);
-  
+
           //row.appendChild(deleteCell);
           // row.appendChild(editCell);
           authorList.appendChild(row);
@@ -126,7 +124,6 @@
       }
 
       // async function getAllAuthors(limit, page) {
-
 
       // const response = await $.ajax({
       //   url: `http://localhost:3000/authors/?limit=${limit}&page=${page}`,
@@ -186,7 +183,6 @@
       //   authorList.appendChild(row);
       // });
 
-
       // }
 
       // function editAuthor(id) {
@@ -201,7 +197,9 @@
         });
 
         // Remove the row from the table
-        const rowToRemove = document.querySelector(`tr[data-author-id="${id}"]`);
+        const rowToRemove = document.querySelector(
+          `tr[data-author-id="${id}"]`
+        );
         if (rowToRemove) {
           rowToRemove.remove();
         }
@@ -225,8 +223,6 @@
       //   });
       //   $("#authorById").text(JSON.stringify(response, null, 2));
       // }
-
-
 
       // Function to add new Author
       async function addAuthor(event) {
@@ -253,6 +249,5 @@
         }
       }
     </script>
-</body>
-
+  </body>
 </html>
