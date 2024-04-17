@@ -50,7 +50,7 @@
 
       <div id="updatedItem" class="mt-3"></div>
 
-      <form action="./items_list.html">
+      <form action="./Items_list.html">
         <button type="submit" class="btn btn-primary">Back Item List</button>
       </form>
     </div>
@@ -102,11 +102,11 @@
             data: { name, year, author: authorIdString },
           });
 
-          $("#updateditem").text(JSON.stringify(response, null, 2));
+          $("#updatedItem").text(JSON.stringify(response, null, 2));
           // Redirect to the page displaying all Item
           window.location.href = "items_list.html";
         } catch (error) {
-          console.error("Error editing Fishing Rod:", error);
+          console.error("Error editing Item:", error);
         }
       }
 
@@ -125,7 +125,7 @@
         console.log(id);
 
         if (!id) {
-          alert("Missing Fishing Rod ID in URL");
+          alert("Missing Item ID in URL");
           return;
         }
 
@@ -137,8 +137,8 @@
             populateForm(item);
           })
           .catch((error) => {
-            console.error("Error getting Fishing Rod:", error);
-            alert("Error getting Fishing Rod");
+            console.error("Error getting Item:", error);
+            alert("Error getting Item");
           });
       }
 
