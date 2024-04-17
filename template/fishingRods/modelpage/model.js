@@ -7,7 +7,8 @@ import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/l
 //Create a Three.JS Scene
 const scene = new THREE.Scene();
 
-scene.background = new THREE.Color(0xf0f0f0);
+scene.background = new THREE.Color(0xa7abb0);
+
 
 //create a new camera with positions and angles
 const camera = new THREE.PerspectiveCamera(
@@ -17,7 +18,7 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 
-camera.position.set(0, 110, 20); // Thay đổi vị trí camera
+camera.position.set(0, 0, 20); // Thay đổi vị trí camera
 
 // Đặt camera nhìn vào điểm mục tiêu, ví dụ: (0, 0, 0) là tâm của không gian
 camera.lookAt(0, 0, 0);
@@ -27,6 +28,16 @@ camera.updateProjectionMatrix();
 
 //Set which object to render
 let objToRender = "rod4";
+
+if (objToRender.includes("rod5")){
+  camera.position.set(1, 0, 0);
+}else if(objToRender.includes("rod2")){
+  camera.position.set(-10, 0, 20);
+}else if(objToRender.includes("rod3")){
+  camera.position.set(20, 25, 20);
+}else if(objToRender.includes("rod4")){
+  camera.position.set(1, 0, 0);
+}
 
 //Instantiate a loader for the .gltf file
 const loader = new GLTFLoader();
@@ -47,9 +58,9 @@ loader.load(
     const fov = camera.fov * (Math.PI / 180);
     let cameraZ = Math.abs(maxDim / Math.tan(fov * 0.5)) * 0.3;
 
-    // if (objToRender.includes("rod1")){
-    //   cameraZ = Math.abs(maxDim / Math.tan(fov * 0.5)) * 0.1;
-    // }
+    if (objToRender.includes("rod2")){
+      cameraZ = Math.abs(maxDim / Math.tan(fov * 0.5)) * 0.1;
+    }
 
     camera.position.z = cameraZ;
     camera.lookAt(center);
@@ -77,7 +88,7 @@ topLight.position.set(500, 500, 500); //top-left-ish
 topLight.castShadow = true;
 scene.add(topLight);
 
-const ambientLight = new THREE.AmbientLight(0x333333, 1);
+const ambientLight = new THREE.AmbientLight(0x333333, 3);
 scene.add(ambientLight);
 
 //This adds controls to the camera, so we can rotate / zoom it with the mouse

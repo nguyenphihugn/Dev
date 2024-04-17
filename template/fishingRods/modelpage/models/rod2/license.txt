@@ -1,0 +1,11 @@
+Model Information:
+* title:	Fishing Rod
+* source:	https://sketchfab.com/3d-models/fishing-rod-f952f077a60f41e288e60f124cf2887f
+* author:	Andre_Gladstone_Leite (https://sketchfab.com/dexterkoller)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Fishing Rod" (https://sketchfab.com/3d-models/fishing-rod-f952f077a60f41e288e60f124cf2887f) by Andre_Gladstone_Leite (https://sketchfab.com/dexterkoller) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
