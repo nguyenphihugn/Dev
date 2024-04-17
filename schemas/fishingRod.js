@@ -7,13 +7,16 @@ var fishingRodSchema = mongoose.Schema({
         unique: true
     },
     year: Number,
+    link3D: String,
     author: {
         type:mongoose.Schema.Types.ObjectId,
         ref:'author'
     },
+
     isDeleted:{
         type:Boolean,
         default:false
     }
+
 }, { timestamps: true })
 module.exports = new mongoose.model('fishingRod', fishingRodSchema)

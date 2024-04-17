@@ -68,9 +68,9 @@
       $(document).ready(function () {
         // Add event listeners for all buttons
    
-        $("#getFishingRodById").click(getFishingRodById);
+        // $("#getFishingRodById").click(getFishingRodById);
      
-        $("#updateFishingRod").click(updateFishingRod);
+        // $("#updateFishingRod").click(updateFishingRod);
       });
 
       window.onload = async function () {
@@ -96,7 +96,9 @@
         fishingRods.forEach((fishingRod) => {
           const row = document.createElement("tr");
           console.log(fishingRod._id);
+          console.log(fishingRod.link3D);
           row.setAttribute("data-fishingRod-id", fishingRod._id);
+          row.setAttribute("data-fishingRod-link3D", fishingRod.link3D);
           const nameCell = document.createElement("td");
           const yearCell = document.createElement("td");
           const authorCell = document.createElement("td");
@@ -131,7 +133,7 @@
           });
 
           viewButton.addEventListener("click", () => { 
-            viewRod(fishingRod._id);
+            viewRod(fishingRod.link3D);
           });
 
           deleteCell.appendChild(deleteButton);
@@ -151,6 +153,10 @@
       function editFishingRod(id) {
         window.location.href = `./fishingRods_edit.html?id=${id}`;
       }
+      function viewRod(link3D) {
+        
+        window.location.href = `./modelpage/model.html?id=${link3D}`;
+      }
 
       async function deleteFishingRod(id) {
         // Send a DELETE request to the server to delete the FishingRod with the given ID
@@ -166,9 +172,9 @@
         }
       }
 
-    async function viewRod(id) { 
-      window.location.href = `./modelpage/model.html`;
-    }
+    // async function viewRod(id) { 
+    //   window.location.href = `./modelpage/model.html`;
+    // }
 
       const pageLinks = document.querySelectorAll(".pagination .page-link");
       pageLinks.forEach((link) => {

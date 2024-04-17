@@ -24,9 +24,12 @@ camera.lookAt(0, 0, 0);
 
 // Cập nhật camera
 camera.updateProjectionMatrix();
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get("id");
+console.log(id);
 
 //Set which object to render
-let objToRender = "rod4";
+let objToRender = `${id}`;
 
 //Instantiate a loader for the .gltf file
 const loader = new GLTFLoader();

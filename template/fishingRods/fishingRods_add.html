@@ -25,6 +25,10 @@
           <input type="number" id="newFishingRodYear" class="form-control" />
         </div>
         <div class="mb-3">
+          <label for="newFishingRodLink3D" class="form-label">Link3D</label>
+          <input type="text" id="newFishingRodLink3D" class="form-control" />
+        </div>
+        <div class="mb-3">
           <label for="newFishingRodAuthor" class="form-label">Author</label>
           <select id="newFishingRodAuthor" class="form-control"></select>
         </div>
@@ -65,6 +69,7 @@
         event.preventDefault();
         const name = $("#newFishingRodName").val();
         const year = $("#newFishingRodYear").val();
+        const link3D = $("#newFishingRodLink3D").val();
         const authorSelect = $("#newFishingRodAuthor");
         const authorId = authorSelect.val();
         const authorIdString = String(authorId);
@@ -75,7 +80,7 @@
           const response = await $.ajax({
             url: "http://localhost:3000/fishingRods/",
             method: "POST",
-            data: { name, year, author: authorIdString },
+            data: { name, year, link3D, author: authorIdString },
           });
 
           $("#addedFishingRod").text(JSON.stringify(response, null, 2));

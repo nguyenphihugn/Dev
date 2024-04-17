@@ -51,6 +51,7 @@ router.post("/", async function (req, res, next) {
     let newFishingRod = new fishingRodModel({
       name: req.body.name,
       year: req.body.year,
+      link3D: req.body.link3D,
       author: req.body.author,
     });
     await newFishingRod.save();
