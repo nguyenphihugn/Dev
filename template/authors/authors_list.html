@@ -31,7 +31,7 @@
               <th>Name</th>
 
               <th>
-                fishingRod Name
+                FishingRod Name
               </th>
             </tr>
           </thead>
@@ -81,16 +81,16 @@
           row.setAttribute("data-author-id", author._id);
           const nameCell = document.createElement("td");
           const publishedCell = document.createElement("td");
-          const deleteCell = document.createElement("td");
-          const deleteButton = document.createElement("button");
+          //const deleteCell = document.createElement("td");
+          //const deleteButton = document.createElement("button");
           const editCell = document.createElement("td");
           const editButton = document.createElement("button");
 
           nameCell.textContent = author.name;
           nameCell.className = "align-middle";
 
-          deleteButton.textContent = "Delete";
-          deleteButton.className = "btn btn-danger";
+          //deleteButton.textContent = "Delete";
+          //deleteButton.className = "btn btn-danger";
           editButton.textContent = "Edit";
           editButton.className = "btn btn-info";
 
@@ -101,9 +101,9 @@
           // publishedCell.textContent = publishedNames;
 
           // Add an event listener to the delete button
-          deleteButton.addEventListener("click", () => {
-            deleteAuthor(author._id);
-          });
+          //deleteButton.addEventListener("click", () => {
+            //deleteAuthor(author._id);
+          //});
 
           editButton.addEventListener("click", () => {
             editAuthor(author._id);
@@ -116,10 +116,10 @@
 
           row.appendChild(nameCell);
           row.appendChild(publishedCell);
-          deleteCell.appendChild(deleteButton);
+          //deleteCell.appendChild(deleteButton);
           // editCell.appendChild(editButton);
   
-          row.appendChild(deleteCell);
+          //row.appendChild(deleteCell);
           // row.appendChild(editCell);
           authorList.appendChild(row);
         });
