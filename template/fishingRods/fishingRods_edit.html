@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Fishing-Rod</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center mb-5">Edit Fishing Rod</h1>
+
+      <button id="getFishingRodById" class="btn btn-primary">Get Fishing Rod By ID</button>
+      <form id="editFishingRodForm">
+        <input type="hidden" id="editFishingRodId" name="id" />
+
+        <div class="input-group mb-3">
+          <label for="editFishingRodName" class="input-group-text"
+            >New Fishing Rod Name</label
+          >
+          <input
+            type="text"
+            id="editFishingRodName"
+            name="name"
+            class="form-control"
+          />
+        </div>
+
+        <div class="input-group mb-3">
+          <label for="editFishingRodYear" class="input-group-text">New Year</label>
+          <input
+            type="number"
+            id="editFishingRodYear"
+            name="year"
+            class="form-control"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="newFishingRodAuthor" class="form-label">Author</label>
+          <select id="newFishingRodAuthor" class="form-control"></select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Fishing Rod</button>
+      </form>
+
+      <div id="updatedFishingRod" class="mt-3"></div>
+
+      <form action="./fishingRods_list.html">
+        <button type="submit" class="btn btn-primary">Back Fishing-Rod List</button>
+      </form>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        // Add event listener for the form submission
+        $("#editFishingRodForm").submit(editFishingRod);
+      });
+
+      window.onload = async function () {
+        await getAuthors().then(populateAuthorDropdown);
+      };
+
+      async function getAuthors() {
+        const response = await $.ajax({
+          url: "http://localhost:3000/authors/",
+          method: "GET",
+        });
+        return response;
+      }
+
+      function populateAuthorDropdown(authors) {
+        const authorSelect = $("#newFishingRodAuthor");
+        authorSelect.empty();
+        authors.forEach((author) => {
+          const option = $("<option></option>")
+            .val(author._id)
+            .text(author.name);
+          authorSelect.append(option);
+        });
+      }
+
+      // Function to edit a FishingRod
+      async function editFishingRod(event) {
+        event.preventDefault();
+        const id = $("#editFishingRodId").val();
+        const name = $("#editFishingRodName").val();
+        const year = $("#editFishingRodYear").val();
+     
+        const authorSelect = $("#newFishingRodAuthor");
+        const authorId = authorSelect.val();
+        const authorIdString = String(authorId);
+
+        try {
+          const response = await $.ajax({
+            url: `http://localhost:3000/fishingRods/${id}`,
+            method: "PUT",
+            data: { name, year, author: authorIdString },
+          });
+
+          $("#updatedFishingRod").text(JSON.stringify(response, null, 2));
+          // Redirect to the page displaying all FishingRod
+          window.location.href = "fishingRods_list.html";
+        } catch (error) {
+          console.error("Error editing Fishing Rod:", error);
+        }
+      }
+
+      // Function to populate the form with the existing FishingRod data
+      function populateForm(fishingRod) {
+        $("#editFishingRodId").val(fishingRod._id);
+        $("#editFishingRodName").val(fishingRod.name);
+        $("#editFishingRodYear").val(fishingRod.year);
+        $("#editFishingRodAuthor").val(fishingRod.author.name);
+      }
+
+      // Function to get a FishingRod by ID and populate the form
+      function getFishingRodById() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get("id");
+        console.log(id);
+
+        if (!id) {
+          alert("Missing Fishing Rod ID in URL");
+          return;
+        }
+
+        $.ajax({
+          url: `http://localhost:3000/fishingRods/${id}`,
+          method: "GET",
+        })
+          .then((fishingRod) => {
+            populateForm(fishingRod);
+          })
+          .catch((error) => {
+            console.error("Error getting Fishing Rod:", error);
+            alert("Error getting Fishing Rod");
+          });
+      }
+
+      // Add event listener for the "Get FishingRod By ID" button
+      $("#getFishingRodById").click(getFishingRodById);
+    </script>
+  </body>
+</html>

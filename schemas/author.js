@@ -8,7 +8,7 @@ var authorSchema = mongoose.Schema({
 }, { timestamps: true })
 
 authorSchema.virtual('published', {
-    ref: 'book',
+    ref: 'fishingRod',
     localField: '_id',
     foreignField: 'author'
 })

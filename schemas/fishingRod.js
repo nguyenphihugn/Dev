@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var bookSchema = mongoose.Schema({
+var fishingRodSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -16,4 +16,4 @@ var bookSchema = mongoose.Schema({
         default:false
     }
 }, { timestamps: true })
-module.exports = new mongoose.model('book', bookSchema)
+module.exports = new mongoose.model('fishingRod', fishingRodSchema)

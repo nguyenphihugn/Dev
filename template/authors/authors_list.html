@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Authors API</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center mb-5">Authors API</h1>
+
+    <h2 class="mb-3">Get All Authors</h2>
+
+    <div class="container mt-3">
+      <form action="./authors_add.html">
+        <button type="submit" class="btn btn-primary">Add Author</button>
+      </form>
+      <div class="table-responsive">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th>Name</th>
+
+              <th>
+                fishingRod Name
+              </th>
+            </tr>
+          </thead>
+          <tbody id="author-list"></tbody>
+        </table>
+      </div>
+      <!-- Add the pagination links here -->
+      <nav aria-label="Page navigation" class="d-flex justify-content-center">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+        </ul>
+      </nav>
+    </div>
+    <script>
+      // $(document).ready(function () {
+      //   // Add event listeners for all buttons
+
+      //   $("#getAuthorById").click(getAuthorById);
+
+      //   $("#updateAuthor").click(updateAuthor);
+      // });
+
+      window.onload = async function () {
+        const limit = 4;
+        const page = 1;
+        getAllAuthors(limit, page);
+
+        //await getAuthors().then(populateAuthorDropdown);
+      };
+
+      // Function to get all Author
+      async function getAllAuthors(limit, page) {
+        const response = await $.ajax({
+          url: `http://localhost:3000/authors/?limit=${limit}&page=${page}`,
+          method: "GET",
+        });
+        const authors = response;
+        console.log(authors);
+        const authorList = document.getElementById("author-list");
+
+        authorList.innerHTML = "";
+
+        authors.forEach((author) => {
+          const row = document.createElement("tr");
+          row.setAttribute("data-author-id", author._id);
+          const nameCell = document.createElement("td");
+          const publishedCell = document.createElement("td");
+          const deleteCell = document.createElement("td");
+          const deleteButton = document.createElement("button");
+          const editCell = document.createElement("td");
+          const editButton = document.createElement("button");
+
+          nameCell.textContent = author.name;
+          nameCell.className = "align-middle";
+
+          deleteButton.textContent = "Delete";
+          deleteButton.className = "btn btn-danger";
+          editButton.textContent = "Edit";
+          editButton.className = "btn btn-info";
+
+          nameCell.textContent = author.name;
+          // const publishedNames = author.published.map(item => item.name).join(", ");
+          const publishedParas = author.published.map(item => `<p>${item.name}</p>`);
+          publishedCell.innerHTML = publishedParas.join('');
+          // publishedCell.textContent = publishedNames;
+
+          // Add an event listener to the delete button
+          deleteButton.addEventListener("click", () => {
+            deleteAuthor(author._id);
+          });
+
+          editButton.addEventListener("click", () => {
+            editAuthor(author._id);
+          });
+
+        
+
+
+
+
+          row.appendChild(nameCell);
+          row.appendChild(publishedCell);
+          deleteCell.appendChild(deleteButton);
+          // editCell.appendChild(editButton);
+  
+          row.appendChild(deleteCell);
+          // row.appendChild(editCell);
+          authorList.appendChild(row);
+        });
+      }
+
+      // async function getAllAuthors(limit, page) {
+
+
+      // const response = await $.ajax({
+      //   url: `http://localhost:3000/authors/?limit=${limit}&page=${page}`,
+      //   method: "GET",
+      // });
+      // const authors = response;
+      // console.log(authors);
+      // const authorList = document.getElementById("author-list");
+
+      // authorList.innerHTML = "";
+
+      // authors.forEach((author) => {
+      //   const row = document.createElement("tr");
+      //   console.log(author._id);
+      //   row.setAttribute("data-author-id", author._id);
+      //   const nameCell = document.createElement("td");
+
+      //   const deleteCell = document.createElement("td");
+      //   const deleteButton = document.createElement("button");
+      //   const editCell = document.createElement("td");
+      //   const editButton = document.createElement("button");
+
+      //   nameCell.textContent = author.name;
+      //   nameCell.className = "align-middle";
+
+      //   deleteButton.textContent = "Delete";
+      //   deleteButton.className = "btn btn-danger";
+      //   editButton.textContent = "Edit";
+      //   editButton.className = "btn btn-info";
+
+      //   for (var i = 0; i < author[0].published.length; i++) {
+      //     var row = table.insertRow(i + 1);
+      //     var authorNameCell = row.insertCell(0);
+      //     var publishedNameCell = row.insertCell(1);
+
+      //     authorNameCell.innerHTML = data[0].name;
+      //     publishedNameCell.innerHTML = data[0].published[i].name;
+      // }
+
+      //   // Add an event listener to the delete button
+      //   deleteButton.addEventListener("click", () => {
+      //     deleteAuthor(author._id);
+      //   });
+
+      //   editButton.addEventListener("click", () => {
+      //     editAuthor(author._id);
+      //   });
+
+      //   deleteCell.appendChild(deleteButton);
+      //   editCell.appendChild(editButton);
+      //   row.appendChild(nameCell);
+      //   row.appendChild(yearCell);
+      //   row.appendChild(authorCell);
+      //   row.appendChild(deleteCell);
+      //   row.appendChild(editCell);
+
+      //   authorList.appendChild(row);
+      // });
+
+
+      // }
+
+      // function editAuthor(id) {
+      //   window.location.href = `./authors_edit.html?id=${id}`;
+      // }
+
+      async function deleteAuthor(id) {
+        // Send a DELETE request to the server to delete the Author with the given ID
+        await $.ajax({
+          url: `http://localhost:3000/authors/${id}`,
+          method: "DELETE",
+        });
+
+        // Remove the row from the table
+        const rowToRemove = document.querySelector(`tr[data-author-id="${id}"]`);
+        if (rowToRemove) {
+          rowToRemove.remove();
+        }
+      }
+
+      const pageLinks = document.querySelectorAll(".pagination .page-link");
+      pageLinks.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          const page = link.textContent;
+          getAllAuthors(4, page);
+        });
+      });
+
+      // // Function to get Author by ID
+      // async function getAuthorById() {
+      //   const id = $("#authorId").val();
+      //   const response = await $.ajax({
+      //     url: `http://localhost:3000/authors/${id}`,
+      //     method: "GET",
+      //   });
+      //   $("#authorById").text(JSON.stringify(response, null, 2));
+      // }
+
+
+
+      // Function to add new Author
+      async function addAuthor(event) {
+        event.preventDefault();
+        const name = $("#newAuthorName").val();
+        const year = $("#newAuthorYear").val();
+        const authorSelect = $("#newAuthorAuthor");
+        const authorId = authorSelect.val();
+        const authorIdString = String(authorId);
+
+        console.log(authorIdString);
+
+        try {
+          const response = await $.ajax({
+            url: "http://localhost:3000/authors/",
+            method: "POST",
+            data: { name, year, author: authorIdString },
+          });
+
+          $("#addedAuthor").text(JSON.stringify(response, null, 2));
+          location.reload();
+        } catch (error) {
+          console.error("Error adding Author:", error);
+        }
+      }
+    </script>
+</body>
+
+</html>

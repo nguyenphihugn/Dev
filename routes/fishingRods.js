@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var bookModel = require("../schemas/book");
+var fishingRodModel = require("../schemas/fishingRod");
 require("express-async-errors");
 
 router.get("/", async function (req, res, next) {
@@ -32,29 +32,29 @@ router.get("/", async function (req, res, next) {
   }
   console.log(queries);
   queries.isDeleted = false;
-  books = await bookModel
+  fishingRods = await fishingRodModel
     .find(queries)
     .populate({ path: "author", select: "_id name" })
     .lean()
     .skip((page - 1) * limit)
     .limit(limit)
     .exec();
-  res.status(200).send(books);
+  res.status(200).send(fishingRods);
 });
 router.get("/:id", async function (req, res, next) {
-  var book = await bookModel.findById(req.params.id).exec();
-  res.status(200).send(book);
+  var fishingRod = await fishingRodModel.findById(req.params.id).exec();
+  res.status(200).send(fishingRod);
 });
 
 router.post("/", async function (req, res, next) {
   try {
-    let newBook = new bookModel({
+    let newFishingRod = new fishingRodModel({
       name: req.body.name,
       year: req.body.year,
       author: req.body.author,
     });
-    await newBook.save();
-    res.status(200).send(newBook);
+    await newFishingRod.save();
+    res.status(200).send(newFishingRod);
   } catch (error) {
     res.status(404).send(error);
   }
@@ -62,12 +62,12 @@ router.post("/", async function (req, res, next) {
 
 router.put("/:id", async function (req, res, next) {
   try {
-    var book = await bookModel
+    var fishingRod = await fishingRodModel
       .findByIdAndUpdate(req.params.id, req.body, {
         new: true,
       })
       .exec();
-    res.status(200).send(book);
+    res.status(200).send(fishingRod);
   } catch (error) {
     res.status(404).send(error);
   }
@@ -75,7 +75,7 @@ router.put("/:id", async function (req, res, next) {
 
 router.delete("/:id", async function (req, res, next) {
   try {
-    var book = await bookModel
+    var fishingRod = await fishingRodModel
       .findByIdAndUpdate(
         req.params.id,
         {
@@ -86,7 +86,7 @@ router.delete("/:id", async function (req, res, next) {
         }
       )
       .exec();
-    res.status(200).send(book);
+    res.status(200).send(fishingRod);
   } catch (error) {
     res.status(404).send(error);
   }
