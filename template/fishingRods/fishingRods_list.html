@@ -25,9 +25,23 @@
       <h2 class="mb-3">Get All Fishing-Rods</h2>
 
       <div class="container mt-3">
-        <form action="./fishingRods_add.html">
+        <div class="d-flex gap-3 mb-4">
+          <form action="./fishingRods_add.html">
+            <button type="submit" class="btn btn-success">Add Fishing Rod</button>
+          </form>
+          <form action="/template/authors/authors_list.html">
+            <button type="submit" class="btn btn-primary">Author Fishing Rod</button>
+          </form>
+          <form action="/template/items/items_list.html">
+            <button type="submit" class="btn btn-warning">Item Fishing Rod</button>
+          </form>
+        </div>
+        <!-- <form action="./fishingRods_add.html">
           <button type="submit" class="btn btn-primary">Add Fishing Rod</button>
         </form>
+        <form action="/template/authors/authors_list.html">
+          <button type="submit" class="btn btn-primary">Author Fishing Rod</button>
+        </form> -->
         <div class="table-responsive">
           <table class="table">
             <thead class="thead-dark">
