@@ -27,21 +27,22 @@
       <div class="container mt-3">
         <div class="d-flex gap-3 mb-4">
           <form action="./fishingRods_add.html">
-            <button type="submit" class="btn btn-success">Add Fishing Rod</button>
+            <button type="submit" class="btn btn-success">
+              Add Fishing Rod
+            </button>
           </form>
           <form action="/template/authors/authors_list.html">
-            <button type="submit" class="btn btn-primary">Author Fishing Rod</button>
+            <button type="submit" class="btn btn-primary">
+              Author Fishing Rod
+            </button>
           </form>
           <form action="/template/items/items_list.html">
-            <button type="submit" class="btn btn-warning">Item Fishing Rod</button>
+            <button type="submit" class="btn btn-warning">
+              Item Fishing Rod
+            </button>
           </form>
         </div>
-        <!-- <form action="./fishingRods_add.html">
-          <button type="submit" class="btn btn-primary">Add Fishing Rod</button>
-        </form>
-        <form action="/template/authors/authors_list.html">
-          <button type="submit" class="btn btn-primary">Author Fishing Rod</button>
-        </form> -->
+
         <div class="table-responsive">
           <table class="table">
             <thead class="thead-dark">
@@ -55,6 +56,7 @@
             <tbody id="fishingRod-list"></tbody>
           </table>
         </div>
+
         <!-- Add the pagination links here -->
         <nav aria-label="Page navigation" class="d-flex justify-content-center">
           <ul class="pagination">
@@ -64,17 +66,16 @@
           </ul>
         </nav>
       </div>
+    </div>
     <script>
       $(document).ready(function () {
         // Add event listeners for all buttons
-   
         // $("#getFishingRodById").click(getFishingRodById);
-     
         // $("#updateFishingRod").click(updateFishingRod);
       });
 
       window.onload = async function () {
-        const limit = 4;
+        const limit = 8;
         const page = 1;
         getAllFishingRods(limit, page);
 
@@ -106,8 +107,8 @@
           const deleteButton = document.createElement("button");
           const editCell = document.createElement("td");
           const editButton = document.createElement("button");
-          const viewCell = document.createElement("td"); 
-          const viewButton = document.createElement("button"); 
+          const viewCell = document.createElement("td");
+          const viewButton = document.createElement("button");
 
           nameCell.textContent = fishingRod.name;
           nameCell.className = "align-middle";
@@ -121,7 +122,6 @@
           editButton.className = "btn btn-info btn-sm-custom";
           viewButton.textContent = "View";
           viewButton.className = "btn btn-success btn-sm-custom";
-          
 
           // Add an event listener to the delete button
           deleteButton.addEventListener("click", () => {
@@ -132,19 +132,19 @@
             editFishingRod(fishingRod._id);
           });
 
-          viewButton.addEventListener("click", () => { 
+          viewButton.addEventListener("click", () => {
             viewRod(fishingRod.link3D);
           });
 
           deleteCell.appendChild(deleteButton);
           editCell.appendChild(editButton);
-          viewCell.appendChild(viewButton); 
+          viewCell.appendChild(viewButton);
           row.appendChild(nameCell);
           row.appendChild(yearCell);
           row.appendChild(authorCell);
           row.appendChild(deleteCell);
           row.appendChild(editCell);
-          row.appendChild(viewCell); 
+          row.appendChild(viewCell);
 
           fishingRodList.appendChild(row);
         });
@@ -154,7 +154,6 @@
         window.location.href = `./fishingRods_edit.html?id=${id}`;
       }
       function viewRod(link3D) {
-        
         window.location.href = `./modelpage/model.html?id=${link3D}`;
       }
 
@@ -166,22 +165,24 @@
         });
 
         // Remove the row from the table
-        const rowToRemove = document.querySelector(`tr[data-fishingRod-id="${id}"]`);
+        const rowToRemove = document.querySelector(
+          `tr[data-fishingRod-id="${id}"]`
+        );
         if (rowToRemove) {
           rowToRemove.remove();
         }
       }
 
-    // async function viewRod(id) { 
-    //   window.location.href = `./modelpage/model.html`;
-    // }
+      // async function viewRod(id) {
+      //   window.location.href = `./modelpage/model.html`;
+      // }
 
       const pageLinks = document.querySelectorAll(".pagination .page-link");
       pageLinks.forEach((link) => {
         link.addEventListener("click", (e) => {
           e.preventDefault();
           const page = link.textContent;
-          getAllFishingRods(4, page);
+          getAllFishingRods(8, page);
         });
       });
 
@@ -194,8 +195,6 @@
         });
         $("#fishingRodById").text(JSON.stringify(response, null, 2));
       }
-
-     
 
       // Function to add new FishingRod
       async function addFishingRod(event) {
@@ -224,4 +223,3 @@
     </script>
   </body>
 </html>
-
