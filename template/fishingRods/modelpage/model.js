@@ -32,7 +32,7 @@ console.log(id);
 //Set which object to render
 let objToRender = `${id}`;
 
-if (objToRender.includes("rod5")){
+if (objToRender.includes("rod1")){
   camera.position.set(1, 0, 0);
 }else if(objToRender.includes("rod2")){
   camera.position.set(-10, 0, 20);
