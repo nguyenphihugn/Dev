@@ -26,7 +26,7 @@ camera.lookAt(0, 0, 0);
 camera.updateProjectionMatrix();
 
 //Set which object to render
-let objToRender = "rod1";
+let objToRender = "rod4";
 
 //Instantiate a loader for the .gltf file
 const loader = new GLTFLoader();
