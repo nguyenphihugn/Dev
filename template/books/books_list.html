@@ -150,26 +150,6 @@
         });
         $("#bookById").text(JSON.stringify(response, null, 2));
       }
-
-      //async function getAuthors() {
-      //const response = await $.ajax({
-      //url: "http://localhost:3000/authors/",
-      //method: "GET",
-      //});
-      //return response;
-      //}
-
-      //function populateAuthorDropdown(authors) {
-      //const authorSelect = $("#newBookAuthor");
-      //authorSelect.empty();
-      //authors.forEach((author) => {
-      //const option = $("<option></option>")
-      //.val(author._id)
-      //.text(author.name);
-      //authorSelect.append(option);
-      //});
-      //}
-
       // Function to add new book
       async function addBook(event) {
         event.preventDefault();
