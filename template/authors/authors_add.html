@@ -20,14 +20,7 @@
           <label for="newAuthorName" class="form-label">Author Name</label>
           <input type="text" id="newAuthorName" class="form-control" />
         </div>
-        <!-- <div class="mb-3">
-          <label for="newAuthorYear" class="form-label">Year</label>
-          <input type="number" id="newFishingRodYear" class="form-control" />
-        </div>
-        <div class="mb-3">
-          <label for="newFishingRodAuthor" class="form-label">Author</label>
-          <select id="newFishingRodAuthor" class="form-control"></select>
-        </div> -->
+
         <button type="submit" class="btn btn-primary">Add Author</button>
       </form>
     </div>
@@ -37,39 +30,10 @@
         $("#addAuthorForm").submit(addAuthor);
       });
 
-      // window.onload = async function () {
-      //   await getAuthors().then(populateAuthorDropdown);
-      // };
-
-      // async function getAuthors() {
-      //   const response = await $.ajax({
-      //     url: "http://localhost:3000/authors/",
-      //     method: "GET",
-      //   });
-      //   return response;
-      // }
-
-      // function populateAuthorDropdown(authors) {
-      //   const authorSelect = $("#newAuthorAuthor");
-      //   authorSelect.empty();
-      //   authors.forEach((author) => {
-      //     const option = $("<option></option>")
-      //       .val(author._id)
-      //       .text(author.name);
-      //     authorSelect.append(option);
-      //   });
-      // }
-
       // Function to add new Author
       async function addAuthor(event) {
         event.preventDefault();
         const name = $("#newAuthorName").val();
-        // const year = $("#newAuthorYear").val();
-        // const authorSelect = $("#newAuthorAuthor");
-        // const authorId = authorSelect.val();
-        // const authorIdString = String(authorId);
-
-        // console.log(authorIdString);
 
         try {
           const response = await $.ajax({
