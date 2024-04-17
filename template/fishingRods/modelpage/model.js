@@ -7,10 +7,15 @@ import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/l
 //Create a Three.JS Scene
 const scene = new THREE.Scene();
 
-scene.background = new THREE.Color(0xF0F0F0);
+scene.background = new THREE.Color(0xf0f0f0);
 
 //create a new camera with positions and angles
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
 
 camera.position.set(0, 110, 20); // Thay đổi vị trí camera
 
@@ -21,7 +26,7 @@ camera.lookAt(0, 0, 0);
 camera.updateProjectionMatrix();
 
 //Set which object to render
-let objToRender = 'rod1';
+let objToRender = "rod1";
 
 //Instantiate a loader for the .gltf file
 const loader = new GLTFLoader();
@@ -40,10 +45,10 @@ loader.load(
     const size = boundingBox.getSize(new THREE.Vector3());
     const maxDim = Math.max(size.x, size.y, size.z);
     const fov = camera.fov * (Math.PI / 180);
-    let cameraZ = Math.abs(maxDim / Math.tan(fov * 0.5)) * 0.3; 
+    let cameraZ = Math.abs(maxDim / Math.tan(fov * 0.5)) * 0.3;
 
     // if (objToRender.includes("rod1")){
-    //   cameraZ = Math.abs(maxDim / Math.tan(fov * 0.5)) * 0.1; 
+    //   cameraZ = Math.abs(maxDim / Math.tan(fov * 0.5)) * 0.1;
     // }
 
     camera.position.z = cameraZ;
@@ -51,13 +56,13 @@ loader.load(
   },
   function (xhr) {
     //While it is loading, log the progress
-    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
   },
   function (error) {
     //If there is an error, log it
     console.error(error);
   }
-)
+);
 
 //Instantiate a new renderer and set its size
 const renderer = new THREE.WebGLRenderer({ alpha: true }); //Alpha: true allows for the transparent background
@@ -66,10 +71,9 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 //Add the renderer to the DOM
 document.getElementById("container3D").appendChild(renderer.domElement);
 
-
 //Add lights to the scene, so we can actually see the 3D model
 const topLight = new THREE.DirectionalLight(0xffffff, 1); // (color, intensity)
-topLight.position.set(500, 500, 500) //top-left-ish
+topLight.position.set(500, 500, 500); //top-left-ish
 topLight.castShadow = true;
 scene.add(topLight);
 
@@ -94,4 +98,3 @@ window.addEventListener("resize", function () {
 
 //Start the 3D rendering
 animate();
-
