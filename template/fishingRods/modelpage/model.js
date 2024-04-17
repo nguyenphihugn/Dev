@@ -21,7 +21,7 @@ camera.lookAt(0, 0, 0);
 camera.updateProjectionMatrix();
 
 //Set which object to render
-let objToRender = 'rod4';
+let objToRender = 'rod1';
 
 //Instantiate a loader for the .gltf file
 const loader = new GLTFLoader();
@@ -40,7 +40,11 @@ loader.load(
     const size = boundingBox.getSize(new THREE.Vector3());
     const maxDim = Math.max(size.x, size.y, size.z);
     const fov = camera.fov * (Math.PI / 180);
-    let cameraZ = Math.abs(maxDim / Math.tan(fov * 0.5)) * 0.3; // Adjust this value to change the camera distance
+    let cameraZ = Math.abs(maxDim / Math.tan(fov * 0.5)) * 0.3; 
+
+    // if (objToRender.includes("rod1")){
+    //   cameraZ = Math.abs(maxDim / Math.tan(fov * 0.5)) * 0.1; 
+    // }
 
     camera.position.z = cameraZ;
     camera.lookAt(center);

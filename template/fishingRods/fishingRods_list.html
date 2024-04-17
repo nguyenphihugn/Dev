@@ -117,7 +117,7 @@
           });
 
           viewButton.addEventListener("click", () => { 
-            viewBook(book._id);
+            viewRod(fishingRod._id);
           });
 
           deleteCell.appendChild(deleteButton);
@@ -152,8 +152,8 @@
         }
       }
 
-    async function viewBook(id) { // Function to handle view button
-      window.location.href = `./modelpage/model.html`; // Redirect to view page
+    async function viewRod(id) { 
+      window.location.href = `./modelpage/model.html`;
     }
 
       const pageLinks = document.querySelectorAll(".pagination .page-link");
