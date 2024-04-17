@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Books API</title>
+    <title>Fishing-Rods API</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
@@ -20,13 +20,13 @@
   </head>
   <body>
     <div class="container mt-5">
-      <h1 class="text-center mb-5">Books API</h1>
+      <h1 class="text-center mb-5">Fishing-Rods API</h1>
 
-      <h2 class="mb-3">Get All Books</h2>
+      <h2 class="mb-3">Get All Fishing-Rods</h2>
 
       <div class="container mt-3">
-        <form action="./books_add.html">
-          <button type="submit" class="btn btn-primary">Add Book</button>
+        <form action="./fishingRods_add.html">
+          <button type="submit" class="btn btn-primary">Add Fishing Rod</button>
         </form>
         <div class="table-responsive">
           <table class="table">
@@ -38,7 +38,7 @@
                 <th>Button</th>
               </tr>
             </thead>
-            <tbody id="book-list"></tbody>
+            <tbody id="fishingRod-list"></tbody>
           </table>
         </div>
         <!-- Add the pagination links here -->
@@ -53,36 +53,36 @@
     <script>
       $(document).ready(function () {
         // Add event listeners for all buttons
-        //$("#getAllBooks").click(getAllBooks);
-        $("#getBookById").click(getBookById);
-        // $("#addBookForm").submit(addBook);
-        $("#updateBook").click(updateBook);
+   
+        $("#getFishingRodById").click(getFishingRodById);
+     
+        $("#updateFishingRod").click(updateFishingRod);
       });
 
       window.onload = async function () {
         const limit = 4;
         const page = 1;
-        getAllBooks(limit, page);
+        getAllFishingRods(limit, page);
 
         //await getAuthors().then(populateAuthorDropdown);
       };
 
-      // Function to get all books
-      async function getAllBooks(limit, page) {
+      // Function to get all FishingRods
+      async function getAllFishingRods(limit, page) {
         const response = await $.ajax({
-          url: `http://localhost:3000/books/?limit=${limit}&page=${page}`,
+          url: `http://localhost:3000/fishingRods/?limit=${limit}&page=${page}`,
           method: "GET",
         });
-        const books = response;
-        console.log(books);
-        const bookList = document.getElementById("book-list");
+        const fishingRods = response;
+        console.log(fishingRods);
+        const fishingRodList = document.getElementById("fishingRod-list");
 
-        bookList.innerHTML = "";
+        fishingRodList.innerHTML = "";
 
-        books.forEach((book) => {
+        fishingRods.forEach((fishingRod) => {
           const row = document.createElement("tr");
-          console.log(book._id);
-          row.setAttribute("data-book-id", book._id);
+          console.log(fishingRod._id);
+          row.setAttribute("data-fishingRod-id", fishingRod._id);
           const nameCell = document.createElement("td");
           const yearCell = document.createElement("td");
           const authorCell = document.createElement("td");
@@ -93,11 +93,11 @@
           const viewCell = document.createElement("td"); 
           const viewButton = document.createElement("button"); 
 
-          nameCell.textContent = book.name;
+          nameCell.textContent = fishingRod.name;
           nameCell.className = "align-middle";
-          yearCell.textContent = book.year;
+          yearCell.textContent = fishingRod.year;
           yearCell.className = "align-middle";
-          authorCell.textContent = book.author.name;
+          authorCell.textContent = fishingRod.author.name;
           authorCell.className = "align-middle";
           deleteButton.textContent = "Delete";
           deleteButton.className = "btn btn-danger btn-sm-custom";
@@ -109,11 +109,11 @@
 
           // Add an event listener to the delete button
           deleteButton.addEventListener("click", () => {
-            deleteBook(book._id);
+            deleteFishingRod(fishingRod._id);
           });
 
           editButton.addEventListener("click", () => {
-            editBook(book._id);
+            editFishingRod(fishingRod._id);
           });
 
           viewButton.addEventListener("click", () => { 
@@ -130,23 +130,23 @@
           row.appendChild(editCell);
           row.appendChild(viewCell); 
 
-          bookList.appendChild(row);
+          fishingRodList.appendChild(row);
         });
       }
 
-      function editBook(id) {
-        window.location.href = `./books_edit.html?id=${id}`;
+      function editFishingRod(id) {
+        window.location.href = `./fishingRods_edit.html?id=${id}`;
       }
 
-      async function deleteBook(id) {
-        // Send a DELETE request to the server to delete the book with the given ID
+      async function deleteFishingRod(id) {
+        // Send a DELETE request to the server to delete the FishingRod with the given ID
         await $.ajax({
-          url: `http://localhost:3000/books/${id}`,
+          url: `http://localhost:3000/fishingRods/${id}`,
           method: "DELETE",
         });
 
         // Remove the row from the table
-        const rowToRemove = document.querySelector(`tr[data-book-id="${id}"]`);
+        const rowToRemove = document.querySelector(`tr[data-fishingRod-id="${id}"]`);
         if (rowToRemove) {
           rowToRemove.remove();
         }
@@ -161,45 +161,28 @@
         link.addEventListener("click", (e) => {
           e.preventDefault();
           const page = link.textContent;
-          getAllBooks(4, page);
+          getAllFishingRods(4, page);
         });
       });
 
-      // Function to get book by ID
-      async function getBookById() {
-        const id = $("#bookId").val();
+      // Function to get FishingRod by ID
+      async function getFishingRodById() {
+        const id = $("#fishingRodId").val();
         const response = await $.ajax({
-          url: `http://localhost:3000/books/${id}`,
+          url: `http://localhost:3000/fishingRods/${id}`,
           method: "GET",
         });
-        $("#bookById").text(JSON.stringify(response, null, 2));
+        $("#fishingRodById").text(JSON.stringify(response, null, 2));
       }
 
-      //async function getAuthors() {
-      //const response = await $.ajax({
-      //url: "http://localhost:3000/authors/",
-      //method: "GET",
-      //});
-      //return response;
-      //}
+     
 
-      //function populateAuthorDropdown(authors) {
-      //const authorSelect = $("#newBookAuthor");
-      //authorSelect.empty();
-      //authors.forEach((author) => {
-      //const option = $("<option></option>")
-      //.val(author._id)
-      //.text(author.name);
-      //authorSelect.append(option);
-      //});
-      //}
-
-      // Function to add new book
-      async function addBook(event) {
+      // Function to add new FishingRod
+      async function addFishingRod(event) {
         event.preventDefault();
-        const name = $("#newBookName").val();
-        const year = $("#newBookYear").val();
-        const authorSelect = $("#newBookAuthor");
+        const name = $("#newFishingRodName").val();
+        const year = $("#newFishingRodYear").val();
+        const authorSelect = $("#newFishingRodAuthor");
         const authorId = authorSelect.val();
         const authorIdString = String(authorId);
 
@@ -207,15 +190,15 @@
 
         try {
           const response = await $.ajax({
-            url: "http://localhost:3000/books/",
+            url: "http://localhost:3000/fishingRods/",
             method: "POST",
             data: { name, year, author: authorIdString },
           });
 
-          $("#addedBook").text(JSON.stringify(response, null, 2));
+          $("#addedFishingRod").text(JSON.stringify(response, null, 2));
           location.reload();
         } catch (error) {
-          console.error("Error adding book:", error);
+          console.error("Error adding Fishing Rod:", error);
         }
       }
     </script>

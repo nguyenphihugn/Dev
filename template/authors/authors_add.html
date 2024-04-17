@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Authors API</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center mb-5">Authors API</h1>
+
+      <h2 class="mb-3">Add New Author</h2>
+      <form id="addAuthorForm">
+        <div class="mb-3">
+          <label for="newAuthorName" class="form-label">Author Name</label>
+          <input type="text" id="newAuthorName" class="form-control" />
+        </div>
+        <!-- <div class="mb-3">
+          <label for="newAuthorYear" class="form-label">Year</label>
+          <input type="number" id="newFishingRodYear" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label for="newFishingRodAuthor" class="form-label">Author</label>
+          <select id="newFishingRodAuthor" class="form-control"></select>
+        </div> -->
+        <button type="submit" class="btn btn-primary">Add Author</button>
+      </form>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $("#addAuthorForm").submit(addAuthor);
+      });
+
+      // window.onload = async function () {
+      //   await getAuthors().then(populateAuthorDropdown);
+      // };
+
+      // async function getAuthors() {
+      //   const response = await $.ajax({
+      //     url: "http://localhost:3000/authors/",
+      //     method: "GET",
+      //   });
+      //   return response;
+      // }
+
+      // function populateAuthorDropdown(authors) {
+      //   const authorSelect = $("#newAuthorAuthor");
+      //   authorSelect.empty();
+      //   authors.forEach((author) => {
+      //     const option = $("<option></option>")
+      //       .val(author._id)
+      //       .text(author.name);
+      //     authorSelect.append(option);
+      //   });
+      // }
+
+      // Function to add new Author
+      async function addAuthor(event) {
+        event.preventDefault();
+        const name = $("#newAuthorName").val();
+        // const year = $("#newAuthorYear").val();
+        // const authorSelect = $("#newAuthorAuthor");
+        // const authorId = authorSelect.val();
+        // const authorIdString = String(authorId);
+
+        // console.log(authorIdString);
+
+        try {
+          const response = await $.ajax({
+            url: "http://localhost:3000/authors/",
+            method: "POST",
+            data: { name },
+          });
+
+          $("#addedAuthor").text(JSON.stringify(response, null, 2));
+          location.reload();
+        } catch (error) {
+          console.error("Error adding Author:", error);
+        }
+        window.location.href = "./authors_list.html";
+      }
+    </script>
+  </body>
+</html>

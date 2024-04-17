@@ -9,8 +9,8 @@ router.get("/", async function (req, res, next) {
 
 router.get("/:id", async function (req, res, next) {
   try {
-    var book = await bookModel.findById(req.params.id).exec();
-    res.status(200).send(book);
+    var author = await authorModel.findById(req.params.id).exec();
+    res.status(200).send(author);
   } catch (error) {
     res.status(404).send(error);
   }
@@ -30,12 +30,12 @@ router.post("/", async function (req, res, next) {
 
 router.put("/:id", async function (req, res, next) {
   try {
-    var book = await bookModel
+    var author = await authorModel
       .findByIdAndUpdate(req.params.id, req.body, {
         new: true,
       })
       .exec();
-    res.status(200).send(book);
+    res.status(200).send(author);
   } catch (error) {
     res.status(404).send(error);
   }
@@ -43,7 +43,7 @@ router.put("/:id", async function (req, res, next) {
 
 router.delete("/:id", async function (req, res, next) {
   try {
-    var book = await bookModel
+    var author = await authorModel
       .findByIdAndUpdate(
         req.params.id,
         {
@@ -54,7 +54,7 @@ router.delete("/:id", async function (req, res, next) {
         }
       )
       .exec();
-    res.status(200).send(book);
+    res.status(200).send(author);
   } catch (error) {
     res.status(404).send(error);
   }
