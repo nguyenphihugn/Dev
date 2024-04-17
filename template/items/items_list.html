@@ -16,13 +16,13 @@
 
       <h2 class="mb-3">Get All Items</h2>
 
-      <pre id="allItems" class="mt-3">
+      <div class="container mt-3">
         <form action="./items_add.html">
           <button type="submit" class="btn btn-primary">Add Item</button>
         </form>
-        <div class="container">
+        <div class="table-responsive">
           <table class="table">
-            <thead>
+            <thead class="thead-dark">
               <tr>
                 <th>Name</th>
                 <th>Year</th>
@@ -31,107 +31,34 @@
             </thead>
             <tbody id="item-list"></tbody>
           </table>
-          <!-- Add the pagination links here -->
-          <nav aria-label="Page navigation example" class="d-flex justify-content-center">
-            <ul class="pagination">
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-            </ul>
-          </nav>
         </div>
-      </pre>
-
-      <h2 class="mb-3">Get Item By ID</h2>
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          id="itemId"
-          class="form-control"
-          placeholder="Enter item ID"
-        />
-        <button id="getItemById" class="btn btn-primary">Get Item By ID</button>
+        <!-- Add the pagination links here -->
+        <nav aria-label="Page navigation" class="d-flex justify-content-center">
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+          </ul>
+        </nav>
       </div>
-      <pre id="itemById" class="mt-3"></pre>
-
-      <h2 class="mb-3">Add New Item</h2>
-      <form id="addItemForm">
-        <div class="mb-3">
-          <label for="newItemName" class="form-label">Item Name</label>
-          <input type="text" id="newItemName" class="form-control" />
-        </div>
-        <div class="mb-3">
-          <label for="newItemYear" class="form-label">Year</label>
-          <input type="number" id="newItemYear" class="form-control" />
-        </div>
-        <div class="mb-3">
-          <label for="newItemAuthor" class="form-label">Author</label>
-          <select id="newItemAuthor" class="form-control"></select>
-        </div>
-        <button type="submit" class="btn btn-primary">Add Item</button>
-      </form>
-      <div id="addedItem" class="mt-3"></div>
-
-      <h2 class="mb-3">Update Item</h2>
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          id="updateItemId"
-          class="form-control"
-          placeholder="Enter item ID"
-        />
-      </div>
-      <div class="input-group mb-3">
-        <label for="updateItemName" class="input-group-text"
-          >New Item Name</label
-        >
-        <input type="text" id="updateItemName" class="form-control" />
-      </div>
-      <div class="input-group mb-3">
-        <label for="updateItemYear" class="input-group-text">New Year</label>
-        <input type="number" id="updateItemYear" class="form-control" />
-      </div>
-      <div class="input-group mb-3">
-        <label for="updateItemAuthor" class="input-group-text"
-          >New Author</label
-        >
-        <input type="text" id="updateItemAuthor" class="form-control" />
-      </div>
-      <button id="updateItem" class="btn btn-primary">Update Item</button>
-      <div id="updatedItem" class="mt-3"></div>
-
-      <h2 class="mb-3">Delete Item</h2>
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          id="deleteItemId"
-          class="form-control"
-          placeholder="Enter item ID"
-        />
-        <button id="deleteItem" class="btn btn-primary">Delete Item</button>
-      </div>
-      <div id="deletedItem" class="mt-3"></div>
-    </div>
-
     <script>
       $(document).ready(function () {
         // Add event listeners for all buttons
-        //$("#getAllItems").click(getAllItems);
-        $("#getItemById").click(getItemById);
-        $("#addItemForm").submit(addItem);
-        $("#updateItem").click(updateItem);
-        $("#deleteItem").click(deleteItem);
+   
+        // $("#getItemById").click(getItemById);
+     
+        // $("#updateItem").click(updateItem);
       });
 
       window.onload = async function () {
         const limit = 4;
         const page = 1;
         getAllItems(limit, page);
-        //await getAllItems();
-        await getAuthors().then(populateAuthorDropdown);
+
+        //await getAuthors().then(populateAuthorDropdown);
       };
 
-      // Function to get all items
+      // Function to get all Item
       async function getAllItems(limit, page) {
         const response = await $.ajax({
           url: `http://localhost:3000/items/?limit=${limit}&page=${page}`,
@@ -141,24 +68,68 @@
         console.log(items);
         const itemList = document.getElementById("item-list");
 
-        itemList.innerHTML = ""; // Clear the item list before adding new items
+        itemList.innerHTML = "";
 
         items.forEach((item) => {
           const row = document.createElement("tr");
+          console.log(item._id);
+          row.setAttribute("data-item-id", item._id);
           const nameCell = document.createElement("td");
           const yearCell = document.createElement("td");
           const authorCell = document.createElement("td");
+          const deleteCell = document.createElement("td");
+          const deleteButton = document.createElement("button");
+          const editCell = document.createElement("td");
+          const editButton = document.createElement("button");
 
           nameCell.textContent = item.name;
+          nameCell.className = "align-middle";
           yearCell.textContent = item.year;
+          yearCell.className = "align-middle";
           authorCell.textContent = item.author.name;
+          authorCell.className = "align-middle";
+          deleteButton.textContent = "Delete";
+          deleteButton.className = "btn btn-danger";
+          editButton.textContent = "Edit";
+          editButton.className = "btn btn-info";
 
+          // Add an event listener to the delete button
+          deleteButton.addEventListener("click", () => {
+            deleteItem(item._id);
+          });
+
+          editButton.addEventListener("click", () => {
+            editItem(item._id);
+          });
+
+          deleteCell.appendChild(deleteButton);
+          editCell.appendChild(editButton);
           row.appendChild(nameCell);
           row.appendChild(yearCell);
           row.appendChild(authorCell);
+          row.appendChild(deleteCell);
+          row.appendChild(editCell);
 
           itemList.appendChild(row);
         });
+      }
+
+      function editItem(id) {
+        window.location.href = `./items_edit.html?id=${id}`;
+      }
+
+      async function deleteItem(id) {
+        // Send a DELETE request to the server to delete the Item with the given ID
+        await $.ajax({
+          url: `http://localhost:3000/items/${id}`,
+          method: "DELETE",
+        });
+
+        // Remove the row from the table
+        const rowToRemove = document.querySelector(`tr[data-item-id="${id}"]`);
+        if (rowToRemove) {
+          rowToRemove.remove();
+        }
       }
 
       const pageLinks = document.querySelectorAll(".pagination .page-link");
@@ -170,7 +141,7 @@
         });
       });
 
-      // Function to get item by ID
+      // Function to get Item by ID
       async function getItemById() {
         const id = $("#itemId").val();
         const response = await $.ajax({
@@ -180,26 +151,9 @@
         $("#itemById").text(JSON.stringify(response, null, 2));
       }
 
-      async function getAuthors() {
-        const response = await $.ajax({
-          url: "http://localhost:3000/authors/",
-          method: "GET",
-        });
-        return response;
-      }
+     
 
-      function populateAuthorDropdown(authors) {
-        const authorSelect = $("#newItemAuthor");
-        authorSelect.empty();
-        authors.forEach((author) => {
-          const option = $("<option></option>")
-            .val(author._id)
-            .text(author.name);
-          authorSelect.append(option);
-        });
-      }
-
-      // Function to add new item
+      // Function to add new Item
       async function addItem(event) {
         event.preventDefault();
         const name = $("#newItemName").val();
@@ -220,37 +174,10 @@
           $("#addedItem").text(JSON.stringify(response, null, 2));
           location.reload();
         } catch (error) {
-          console.error("Error adding item:", error);
+          console.error("Error adding Fishing Rod:", error);
         }
       }
-
-      // Function to update item
-      async function updateItem() {
-        const id = $("#updateItemId").val();
-        const name = $("#updateItemName").val();
-        const year = $("#updateItemYear").val();
-        const author = $("#updateItemAuthor").val();
-        const response = await $.ajax({
-          url: `http://localhost:3000/items/${id}`,
-          method: "PUT",
-          data: { name, year, author },
-        });
-        $("#updatedItem").text(JSON.stringify(response, null, 2));
-        location.reload();
-      }
-
-      // Function to delete item
-      async function deleteItem() {
-        const id = $("#deleteItemId").val();
-        const response = await $.ajax({
-          url: `http://localhost:3000/items/${id}`,
-          method: "DELETE",
-        });
-        $("#deletedItem").text(JSON.stringify(response, null, 2));
-        location.reload();
-      }
-
-      // call the function to populate the dropdown list
     </script>
   </body>
 </html>
+
