@@ -40,6 +40,19 @@
           />
         </div>
 
+
+        <div class="input-group mb-3">
+          <label for="editFishingRodLink3D" class="input-group-text">New Link3D</label>
+          <input
+            type="text"
+            id="editFishingRodLink3D"
+            name="link3D"
+            class="form-control"
+          />
+        </div>
+
+
+
         <div class="mb-3">
           <label for="newFishingRodAuthor" class="form-label">Author</label>
           <select id="newFishingRodAuthor" class="form-control"></select>
@@ -90,7 +103,7 @@
         const id = $("#editFishingRodId").val();
         const name = $("#editFishingRodName").val();
         const year = $("#editFishingRodYear").val();
-     
+        const link3D = $("#editFishingRodLink3D").val();
         const authorSelect = $("#newFishingRodAuthor");
         const authorId = authorSelect.val();
         const authorIdString = String(authorId);
@@ -99,7 +112,7 @@
           const response = await $.ajax({
             url: `http://localhost:3000/fishingRods/${id}`,
             method: "PUT",
-            data: { name, year, author: authorIdString },
+            data: { name, year, link3D, author: authorIdString },
           });
 
           $("#updatedFishingRod").text(JSON.stringify(response, null, 2));
@@ -115,6 +128,7 @@
         $("#editFishingRodId").val(fishingRod._id);
         $("#editFishingRodName").val(fishingRod.name);
         $("#editFishingRodYear").val(fishingRod.year);
+        $("#editFishingRodLink3D").val(fishingRod.link3D);
         $("#editFishingRodAuthor").val(fishingRod.author.name);
       }
 

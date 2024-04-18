@@ -24,7 +24,7 @@
           <form action="/template/fishingRods/fishingRods_list.html">
             <button type="submit" class="btn btn-info">Back Item List</button>
           </form>
-        </div>     
+        </div>
         <div class="table-responsive">
           <table class="table">
             <thead class="thead-dark">
@@ -46,12 +46,11 @@
           </ul>
         </nav>
       </div>
+    </div>
     <script>
       $(document).ready(function () {
         // Add event listeners for all buttons
-   
         // $("#getItemById").click(getItemById);
-     
         // $("#updateItem").click(updateItem);
       });
 
@@ -156,8 +155,6 @@
         $("#itemById").text(JSON.stringify(response, null, 2));
       }
 
-     
-
       // Function to add new Item
       async function addItem(event) {
         event.preventDefault();
@@ -185,4 +182,3 @@
     </script>
   </body>
 </html>
-

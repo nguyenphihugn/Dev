@@ -7,14 +7,14 @@ router.get("/", async function (req, res, next) {
   res.status(200).send(authors);
 });
 
-router.get("/:id", async function (req, res, next) {
-  try {
-    var author = await authorModel.findById(req.params.id).exec();
-    res.status(200).send(author);
-  } catch (error) {
-    res.status(404).send(error);
-  }
-});
+// router.get("/:id", async function (req, res, next) {
+//   try {
+//     var author = await authorModel.findById(req.params.id).exec();
+//     res.status(200).send(author);
+//   } catch (error) {
+//     res.status(404).send(error);
+//   }
+// });
 
 router.post("/", async function (req, res, next) {
   try {
@@ -28,35 +28,35 @@ router.post("/", async function (req, res, next) {
   }
 });
 
-router.put("/:id", async function (req, res, next) {
-  try {
-    var author = await authorModel
-      .findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-      })
-      .exec();
-    res.status(200).send(author);
-  } catch (error) {
-    res.status(404).send(error);
-  }
-});
+// router.put("/:id", async function (req, res, next) {
+//   try {
+//     var author = await authorModel
+//       .findByIdAndUpdate(req.params.id, req.body, {
+//         new: true,
+//       })
+//       .exec();
+//     res.status(200).send(author);
+//   } catch (error) {
+//     res.status(404).send(error);
+//   }
+// });
 
-router.delete("/:id", async function (req, res, next) {
-  try {
-    var author = await authorModel
-      .findByIdAndUpdate(
-        req.params.id,
-        {
-          isDeleted: true,
-        },
-        {
-          new: true,
-        }
-      )
-      .exec();
-    res.status(200).send(author);
-  } catch (error) {
-    res.status(404).send(error);
-  }
-});
+// router.delete("/:id", async function (req, res, next) {
+//   try {
+//     var author = await authorModel
+//       .findByIdAndUpdate(
+//         req.params.id,
+//         {
+//           isDeleted: true,
+//         },
+//         {
+//           new: true,
+//         }
+//       )
+//       .exec();
+//     res.status(200).send(author);
+//   } catch (error) {
+//     res.status(404).send(error);
+//   }
+// });
 module.exports = router;

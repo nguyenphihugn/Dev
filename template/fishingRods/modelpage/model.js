@@ -9,7 +9,6 @@ const scene = new THREE.Scene();
 
 scene.background = new THREE.Color(0xa7abb0);
 
-
 //create a new camera with positions and angles
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -25,17 +24,20 @@ camera.lookAt(0, 0, 0);
 
 // Cập nhật camera
 camera.updateProjectionMatrix();
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get("id").toLowerCase();
+console.log(id);
 
 //Set which object to render
-let objToRender = "rod1";
+let objToRender = `${id}`;
 
-if (objToRender.includes("rod1")){
+if (objToRender.includes("rod1")) {
   camera.position.set(1, 0, 0);
-}else if(objToRender.includes("rod2")){
+} else if (objToRender.includes("rod2")) {
   camera.position.set(-10, 0, 20);
-}else if(objToRender.includes("rod3")){
+} else if (objToRender.includes("rod3")) {
   camera.position.set(20, 25, 20);
-}else if(objToRender.includes("rod4")){
+} else if (objToRender.includes("rod4")) {
   camera.position.set(1, 0, 0);
 }
 
@@ -58,7 +60,7 @@ loader.load(
     const fov = camera.fov * (Math.PI / 180);
     let cameraZ = Math.abs(maxDim / Math.tan(fov * 0.5)) * 0.3;
 
-    if (objToRender.includes("rod2")){
+    if (objToRender.includes("rod2")) {
       cameraZ = Math.abs(maxDim / Math.tan(fov * 0.5)) * 0.1;
     }
 
