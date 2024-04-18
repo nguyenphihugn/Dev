@@ -27,9 +27,9 @@ camera.lookAt(0, 0, 0);
 camera.updateProjectionMatrix();
 
 //Set which object to render
-let objToRender = "rod4";
+let objToRender = "rod1";
 
-if (objToRender.includes("rod5")){
+if (objToRender.includes("rod1")){
   camera.position.set(1, 0, 0);
 }else if(objToRender.includes("rod2")){
   camera.position.set(-10, 0, 20);
