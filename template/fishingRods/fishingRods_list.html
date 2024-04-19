@@ -233,7 +233,7 @@
         // Send a DELETE request to the server to delete the FishingRod with the given ID
         await $.ajax({
           url: `http://localhost:3000/fishingRods/addtocart/${id}`,
-          method: "POST",
+          method: "GET",
         });
         // Remove the row from the table
         // const rowToRemove = document.querySelector(

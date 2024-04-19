@@ -4,12 +4,12 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var session = require('express-session');
 // const session = require('express-session'); 
 
 var app = express();
 var cors = require("cors");
-// Nhập middleware cấu hình session từ tệp session.js
-const configureSessionMiddleware = require('./middlewares/session');
+
 // // Use CORS middleware
 // const corsOptions = {
 //   origin: "http://127.0.0.1:5500/",
@@ -17,10 +17,17 @@ const configureSessionMiddleware = require('./middlewares/session');
 // };
 
 app.use(cors());
-app.use(configureSessionMiddleware());
 
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true
+}))
 
-
+app.use(function(req, res, next) {
+  res.locals.session = req.session;
+  next();
+});
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

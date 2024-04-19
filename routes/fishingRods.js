@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var fishingRodModel = require("../schemas/fishingRod");
+var Cart = require('../model/cart');
 
 require("express-async-errors");
 
@@ -103,13 +104,27 @@ router.delete("/:id", async function (req, res, next) {
 });
 
 
-// Chỉnh sửa router để sử dụng các hàm trên
-router.post("/addtocart/:id", async function (req, res, next) {
-  await addToCart(req, res);
+// // Chỉnh sửa router để sử dụng các hàm trên
+// router.post("/addtocart/:id", async function (req, res, next) {
+//   await addToCart(req, res);
+  
+// });
+
+router.get("/addtocart/:id", function(req, res, next) {
+  var fishingRodId = req.params.id;
+  var cart = new Cart(req.session.cart ? req.session.cart : {});
+  var fishingRod = fishingRodModel.findById(req.params.id).exec();
+  console.log(fishingRod);
+  cart.add(fishingRod, fishingRodId);
+  req.session.cart = cart;
+  console.log(req.session.cart);
+  res.status(200).send({ message: 'Sản phẩm đã được thêm vào giỏ hàng' });
 });
+
 
 // Hàm xử lý thêm sản phẩm vào giỏ hàng
 async function addToCart(req, res) {
+ 
   // Lấy thông tin sản phẩm từ request
   const fishingRodId = req.params.id;
 
@@ -117,29 +132,33 @@ async function addToCart(req, res) {
   let cart = req.session.cart || [];
   
   const existingProductIndex = cart.findIndex(item => item.id === fishingRodId);
-
+  console.log(existingProductIndex);
+  console.log(fishingRodId);
   // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới
   if (existingProductIndex === -1) {
     cart.push({
       id: fishingRodId,
       quantity: 1, // Khởi tạo số lượng mặc định là 1
     });
+    
   } else {
     // Nếu sản phẩm đã có, tăng số lượng
     cart[existingProductIndex].quantity++;
+   
   }
 
   // Cập nhật giỏ hàng vào session
   req.session.cart = cart;
-
+  console.log(req.session.cart);
   // Gửi phản hồi thành công
  
   res.status(200).send({ message: 'Sản phẩm đã được thêm vào giỏ hàng' });
+  
 }
 
 // Hàm lấy danh sách sản phẩm trong giỏ hàng
 function getCartItems(req) {
-  return req.session.cart || [];
+  return req.session.cart;
 }
 
 
@@ -147,10 +166,15 @@ function getCartItems(req) {
 // Route mới để lấy danh sách sản phẩm trong giỏ hàng
 router.get("/cart", function (req, res, next) {
   const cartItems = getCartItems(req);
+  // console.log("Cart items:", cartItems);
   res.status(200).send(cartItems);
 });
 
+
+
 module.exports = router;
+
+
 
 // // Route mới để lấy danh sách sản phẩm trong giỏ hàng
 // router.get("/cart", function (req, res, next) {
