@@ -8,6 +8,8 @@ var mongoose = require("mongoose");
 
 var app = express();
 var cors = require("cors");
+// Nhập middleware cấu hình session từ tệp session.js
+const configureSessionMiddleware = require('./middlewares/session');
 // // Use CORS middleware
 // const corsOptions = {
 //   origin: "http://127.0.0.1:5500/",
@@ -15,12 +17,10 @@ var cors = require("cors");
 // };
 
 app.use(cors());
+app.use(configureSessionMiddleware());
 
-// app.use(session({
-//   secret: 'your_secret_key', // Khóa bí mật để mã hóa dữ liệu session
-//   resave: false, // Cho phép session được lưu lại ngay cả khi không có thay đổi
-//   saveUninitialized: true // Tạo session mới cho các yêu cầu chưa được khởi tạo
-// }));
+
+
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

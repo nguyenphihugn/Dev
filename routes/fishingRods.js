@@ -103,7 +103,10 @@ router.delete("/:id", async function (req, res, next) {
 });
 
 
-
+// Chỉnh sửa router để sử dụng các hàm trên
+router.post("/addtocart/:id", async function (req, res, next) {
+  await addToCart(req, res);
+});
 
 // Hàm xử lý thêm sản phẩm vào giỏ hàng
 async function addToCart(req, res) {
@@ -139,14 +142,7 @@ function getCartItems(req) {
   return req.session.cart || [];
 }
 
-// Chỉnh sửa router để sử dụng các hàm trên
-router.post("/addtocart/:id", async function (req, res, next) {
-  // const fishingRod = await fishingRodModel.findById(req.params.id).exec();
-  // res.status(200).send(fishingRod);
 
-  // Thêm sản phẩm vào giỏ hàng
-  await addToCart(req, res);
-});
 
 // Route mới để lấy danh sách sản phẩm trong giỏ hàng
 router.get("/cart", function (req, res, next) {
@@ -156,11 +152,11 @@ router.get("/cart", function (req, res, next) {
 
 module.exports = router;
 
-// Route mới để lấy danh sách sản phẩm trong giỏ hàng
-router.get("/cart", function (req, res, next) {
-  const cartItems = getCartItems(req);
-  res.status(200).send(cartItems);
-});
+// // Route mới để lấy danh sách sản phẩm trong giỏ hàng
+// router.get("/cart", function (req, res, next) {
+//   const cartItems = getCartItems(req);
+//   res.status(200).send(cartItems);
+// });
 
 
 
