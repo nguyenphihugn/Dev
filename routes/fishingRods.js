@@ -1,7 +1,10 @@
 var express = require("express");
 var router = express.Router();
+// const session = require('express-session');
 var fishingRodModel = require("../schemas/fishingRod");
 require("express-async-errors");
+
+
 
 router.get("/", async function (req, res, next) {
   let limit = req.query.limit ? req.query.limit : 4;
@@ -102,33 +105,34 @@ router.delete("/:id", async function (req, res, next) {
 });
 
 
-// Hàm xử lý thêm sản phẩm vào giỏ hàng
-async function addToCart(req, res) {
-  // Lấy thông tin sản phẩm từ request
-  const fishingRodId = req.params.id;
-  const fishingRod = await fishingRodModel.findById(fishingRodId).exec();
+// // Hàm xử lý thêm sản phẩm vào giỏ hàng
+// async function addToCart(req, res) {
+//   // Lấy thông tin sản phẩm từ request
+//   const fishingRodId = req.params.id;
+//   const fishingRod = await fishingRodModel.findById(fishingRodId).exec();
 
-  // Kiểm tra nếu sản phẩm đã tồn tại trong giỏ hàng
-  let cart = req.session.cart || [];
-  const existingProductIndex = cart.findIndex(item => item.id === fishingRodId);
 
-  // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới
-  if (existingProductIndex === -1) {
-    cart.push({
-      id: fishingRodId,
-      quantity: 1, // Khởi tạo số lượng mặc định là 1
-    });
-  } else {
-    // Nếu sản phẩm đã có, tăng số lượng
-    cart[existingProductIndex].quantity++;
-  }
+//   // Kiểm tra nếu sản phẩm đã tồn tại trong giỏ hàng
+//   let cart = req.session.cart || [];
+//   const existingProductIndex = cart.findIndex(item => item.id === fishingRodId);
 
-  // Cập nhật giỏ hàng vào session
-  req.session.cart = cart;
+//   // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới
+//   if (existingProductIndex === -1) {
+//     cart.push({
+//       id: fishingRodId,
+//       quantity: 1, // Khởi tạo số lượng mặc định là 1
+//     });
+//   } else {
+//     // Nếu sản phẩm đã có, tăng số lượng
+//     cart[existingProductIndex].quantity++;
+//   }
 
-  // Gửi phản hồi thành công
-  res.status(200).send({ message: 'Sản phẩm đã được thêm vào giỏ hàng' });
-}
+//   // Cập nhật giỏ hàng vào session
+//   req.session.cart = cart;
+
+//   // Gửi phản hồi thành công
+//   res.status(200).send({ message: 'Sản phẩm đã được thêm vào giỏ hàng' });
+// }
 
 // Hàm lấy danh sách sản phẩm trong giỏ hàng
 function getCartItems(req) {
@@ -137,11 +141,26 @@ function getCartItems(req) {
 
 // Chỉnh sửa router để sử dụng các hàm trên
 router.post("/addtocart/:id", async function (req, res, next) {
-  // const fishingRod = await fishingRodModel.findById(req.params.id).exec();
-  res.status(200).send(await addToCart(req, res));
+  // const productId = req.params.id;
+  const product = await fishingRodModel.findById(req.params.id).exec();
 
-  // Thêm sản phẩm vào giỏ hàng
-  // await addToCart(req, res);
+  let cart = req.session.cart || [];
+
+  const existingProductIndex = cart.findById(item => item.id === productId);
+
+  if (existingProductIndex !== -1) {
+    cart[existingProductIndex].quantity++;
+  } else {
+    cart.push({
+      id: productId,
+      quantity: 1,
+      ...product
+    });
+  }
+
+  req.session.cart = cart;
+
+  res.status(200).send({ message: "Sản phẩm đã được thêm vào giỏ hàng" });
 });
 
 // Route mới để lấy danh sách sản phẩm trong giỏ hàng

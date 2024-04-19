@@ -4,6 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+// const session = require('express-session'); 
 
 var app = express();
 var cors = require("cors");
@@ -14,6 +15,12 @@ var cors = require("cors");
 // };
 
 app.use(cors());
+
+// app.use(session({
+//   secret: 'your_secret_key', // Khóa bí mật để mã hóa dữ liệu session
+//   resave: false, // Cho phép session được lưu lại ngay cả khi không có thay đổi
+//   saveUninitialized: true // Tạo session mới cho các yêu cầu chưa được khởi tạo
+// }));
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -54,5 +61,9 @@ app.use(function (err, req, res, next) {
     data: err.message,
   });
 });
+
+// app.listen(3000, () => {
+//   console.log('Server listening on port 3000');
+// });
 
 module.exports = app;
