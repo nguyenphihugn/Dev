@@ -8,6 +8,7 @@ var fishingRodSchema = mongoose.Schema({
     },
     year: Number,
     link3D: String,
+    price: Number,
     author: {
         type:mongoose.Schema.Types.ObjectId,
         ref:'author'

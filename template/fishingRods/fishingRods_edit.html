@@ -58,6 +58,17 @@
           <select id="newFishingRodAuthor" class="form-control"></select>
         </div>
 
+        <div class="input-group mb-3">
+          <label for="editFishingRodPrice" class="input-group-text">New Price</label>
+          <input
+            type="number"
+            id="editFishingRodPrice"
+            name="price"
+            class="form-control"
+          />
+        </div>
+
+
         <button type="submit" class="btn btn-primary">Update Fishing Rod</button>
       </form>
 
@@ -107,12 +118,13 @@
         const authorSelect = $("#newFishingRodAuthor");
         const authorId = authorSelect.val();
         const authorIdString = String(authorId);
+        const price = $("#editFishingRodPrice").val();
 
         try {
           const response = await $.ajax({
             url: `http://localhost:3000/fishingRods/${id}`,
             method: "PUT",
-            data: { name, year, link3D, author: authorIdString },
+            data: { name, year, link3D, author: authorIdString, price },
           });
 
           $("#updatedFishingRod").text(JSON.stringify(response, null, 2));
@@ -130,6 +142,7 @@
         $("#editFishingRodYear").val(fishingRod.year);
         $("#editFishingRodLink3D").val(fishingRod.link3D);
         $("#editFishingRodAuthor").val(fishingRod.author.name);
+        $("#editFishingRodPrice").val(fishingRod.price);
       }
 
       // Function to get a FishingRod by ID and populate the form

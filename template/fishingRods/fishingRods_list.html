@@ -59,6 +59,11 @@
               Item Fishing Rod
             </button>
           </form>
+          <form action="./fishingRods_Cart.html">
+            <button type="submit" class="btn btn-info">
+              Shopping Cart
+            </button>
+          </form>
         </div>
 
         <div class="table-responsive">
@@ -68,7 +73,10 @@
                 <th>Name</th>
                 <th>Year</th>
                 <th>Author</th>
-                <th>Button</th>
+                <th>Price</th>
+                <th> </th>
+                <th> </th>
+                <th> </th>
               </tr>
             </thead>
             <tbody id="fishingRod-list"></tbody>
@@ -135,12 +143,15 @@
           const nameCell = document.createElement("td");
           const yearCell = document.createElement("td");
           const authorCell = document.createElement("td");
+          const priceCell = document.createElement("td");
           const deleteCell = document.createElement("td");
           const deleteButton = document.createElement("button");
           const editCell = document.createElement("td");
           const editButton = document.createElement("button");
           const viewCell = document.createElement("td");
           const viewButton = document.createElement("button");
+          const cartCell = document.createElement("td");
+          const cartButton = document.createElement("button");
 
           nameCell.textContent = fishingRod.name;
           nameCell.className = "align-middle";
@@ -148,12 +159,16 @@
           yearCell.className = "align-middle";
           authorCell.textContent = fishingRod.author.name;
           authorCell.className = "align-middle";
+          priceCell.textContent = fishingRod.price ? `${fishingRod.price.toLocaleString('vi-VN')} VND` : "";
+          priceCell.className = "align-middle";
           deleteButton.textContent = "Delete";
-          deleteButton.className = "btn btn-danger btn-sm-custom";
+          deleteButton.className = "btn btn-danger btn-lg-custom";
           editButton.textContent = "Edit";
-          editButton.className = "btn btn-info btn-sm-custom";
+          editButton.className = "btn btn-info btn-lg-custom";
           viewButton.textContent = "View";
-          viewButton.className = "btn btn-success btn-sm-custom";
+          viewButton.className = "btn btn-success btn-lg-custom";
+          cartButton.textContent = "Add To Cart";
+          cartButton.className = "btn btn-warning btn-lg-custom";
 
           // Add an event listener to the delete button
           deleteButton.addEventListener("click", () => {
@@ -168,15 +183,22 @@
             viewRod(fishingRod.link3D);
           });
 
+          cartButton.addEventListener("click", () => {
+            addToCartFishingRod(fishingRod._id);
+          });
+
           deleteCell.appendChild(deleteButton);
           editCell.appendChild(editButton);
           viewCell.appendChild(viewButton);
+          cartCell.appendChild(cartButton);
           row.appendChild(nameCell);
           row.appendChild(yearCell);
           row.appendChild(authorCell);
+          row.appendChild(priceCell);
           row.appendChild(deleteCell);
           row.appendChild(editCell);
           row.appendChild(viewCell);
+          row.appendChild(cartCell);
 
           fishingRodList.appendChild(row);
         });
@@ -185,6 +207,9 @@
       function editFishingRod(id) {
         window.location.href = `./fishingRods_edit.html?id=${id}`;
       }
+      // function cartFishingRod(id) {
+      //   window.location.href = `./fishingRods_edit.html?id=${id}`;
+      // }
       function viewRod(link3D) {
         window.location.href = `./modelpage/model.html?id=${link3D}`;
       }
@@ -195,7 +220,6 @@
           url: `http://localhost:3000/fishingRods/${id}`,
           method: "DELETE",
         });
-
         // Remove the row from the table
         const rowToRemove = document.querySelector(
           `tr[data-fishingRod-id="${id}"]`
@@ -205,9 +229,23 @@
         }
       }
 
-      // async function viewRod(id) {
-      //   window.location.href = `./modelpage/model.html`;
-      // }
+      async function addToCartFishingRod(id) {
+        // Send a DELETE request to the server to delete the FishingRod with the given ID
+        await $.ajax({
+          url: `http://localhost:3000/fishingRods/addtocart/${id}`,
+          method: "POST",
+        });
+        // Remove the row from the table
+        // const rowToRemove = document.querySelector(
+        //   `tr[data-fishingRod-id="${id}"]`
+        // );
+        // if (rowToRemove) {
+        //   rowToRemove.remove();
+        // }
+      }
+
+
+    
 
       const pageLinks = document.querySelectorAll(".pagination .page-link");
       pageLinks.forEach((link) => {
@@ -229,29 +267,29 @@
       }
 
       // Function to add new FishingRod
-      async function addFishingRod(event) {
-        event.preventDefault();
-        const name = $("#newFishingRodName").val();
-        const year = $("#newFishingRodYear").val();
-        const authorSelect = $("#newFishingRodAuthor");
-        const authorId = authorSelect.val();
-        const authorIdString = String(authorId);
+      // async function addFishingRod(event) {
+      //   event.preventDefault();
+      //   const name = $("#newFishingRodName").val();
+      //   const year = $("#newFishingRodYear").val();
+      //   const authorSelect = $("#newFishingRodAuthor");
+      //   const authorId = authorSelect.val();
+      //   const authorIdString = String(authorId);
 
-        console.log(authorIdString);
+      //   console.log(authorIdString);
 
-        try {
-          const response = await $.ajax({
-            url: "http://localhost:3000/fishingRods/",
-            method: "POST",
-            data: { name, year, author: authorIdString },
-          });
+      //   try {
+      //     const response = await $.ajax({
+      //       url: "http://localhost:3000/fishingRods/",
+      //       method: "POST",
+      //       data: { name, year, author: authorIdString },
+      //     });
 
-          $("#addedFishingRod").text(JSON.stringify(response, null, 2));
-          location.reload();
-        } catch (error) {
-          console.error("Error adding Fishing Rod:", error);
-        }
-      }
+      //     $("#addedFishingRod").text(JSON.stringify(response, null, 2));
+      //     location.reload();
+      //   } catch (error) {
+      //     console.error("Error adding Fishing Rod:", error);
+      //   }
+      // }
     </script>
   </body>
 </html>
