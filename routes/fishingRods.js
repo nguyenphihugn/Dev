@@ -135,50 +135,50 @@ router.get("/addtocart/:id", async function(req, res, next) {
 
 
 
-// Hàm xử lý thêm sản phẩm vào giỏ hàng
-async function addToCart(req, res) {
+// // Hàm xử lý thêm sản phẩm vào giỏ hàng
+// async function addToCart(req, res) {
  
-  // Lấy thông tin sản phẩm từ request
-  const fishingRodId = req.params.id;
+//   // Lấy thông tin sản phẩm từ request
+//   const fishingRodId = req.params.id;
 
-  // Kiểm tra nếu sản phẩm đã tồn tại trong giỏ hàng
-  let cart = req.session.cart || [];
+//   // Kiểm tra nếu sản phẩm đã tồn tại trong giỏ hàng
+//   let cart = req.session.cart || [];
   
-  const existingProductIndex = cart.findIndex(item => item.id === fishingRodId);
-  console.log(existingProductIndex);
-  console.log(fishingRodId);
-  // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới
-  if (existingProductIndex === -1) {
-    cart.push({
-      id: fishingRodId,
-      quantity: 1, // Khởi tạo số lượng mặc định là 1
-    });
+//   const existingProductIndex = cart.findIndex(item => item.id === fishingRodId);
+//   console.log(existingProductIndex);
+//   console.log(fishingRodId);
+//   // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới
+//   if (existingProductIndex === -1) {
+//     cart.push({
+//       id: fishingRodId,
+//       quantity: 1, // Khởi tạo số lượng mặc định là 1
+//     });
     
-  } else {
-    // Nếu sản phẩm đã có, tăng số lượng
-    cart[existingProductIndex].quantity++;
+//   } else {
+//     // Nếu sản phẩm đã có, tăng số lượng
+//     cart[existingProductIndex].quantity++;
    
-  }
+//   }
 
-  // Cập nhật giỏ hàng vào session
-  req.session.cart = cart;
-  console.log(req.session.cart);
-  // Gửi phản hồi thành công
+//   // Cập nhật giỏ hàng vào session
+//   req.session.cart = cart;
+//   console.log(req.session.cart);
+//   // Gửi phản hồi thành công
  
-  res.status(200).send({ message: 'Sản phẩm đã được thêm vào giỏ hàng' });
+//   res.status(200).send({ message: 'Sản phẩm đã được thêm vào giỏ hàng' });
   
-}
+// }
 
-// Hàm lấy danh sách sản phẩm trong giỏ hàng
-function getCartItems(req) {
-  return req.session.cart;
-}
+// // Hàm lấy danh sách sản phẩm trong giỏ hàng
+// function getCartItems(req) {
+//   return req.session.cart;
+// }
 
 
 
 // Route mới để lấy danh sách sản phẩm trong giỏ hàng
 router.get("/cart", function (req, res, next) {
-  const cartItems = getCartItems(req);
+  // const cartItems = getCartItems(req);
   // console.log("Cart items:", cartItems);
   res.status(200).send(cartItems);
 });
