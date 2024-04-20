@@ -21,11 +21,15 @@ app.use(cors());
 app.use(session({
   secret: 'secret',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 86400000, // thời gian hết hạn của session, ở đây là 1 ngày
+  }
 }))
 
 app.use(function(req, res, next) {
   res.locals.session = req.session;
+  console.log(res.locals.session);
   next();
 });
 

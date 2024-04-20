@@ -43,8 +43,10 @@ router.get("/", async function (req, res, next) {
     .exec();
   res.status(200).send(fishingRods);
 });
+
 router.get("/:id", async function (req, res, next) {
   var fishingRod = await fishingRodModel.findById(req.params.id).exec();
+  console.log(fishingRod);
   res.status(200).send(fishingRod);
 });
 
@@ -110,16 +112,27 @@ router.delete("/:id", async function (req, res, next) {
   
 // });
 
-router.get("/addtocart/:id", function(req, res, next) {
+router.get("/addtocart/:id", async function(req, res, next) {
   var fishingRodId = req.params.id;
   var cart = new Cart(req.session.cart ? req.session.cart : {});
-  var fishingRod = fishingRodModel.findById(req.params.id).exec();
-  console.log(fishingRod);
-  cart.add(fishingRod, fishingRodId);
-  req.session.cart = cart;
-  console.log(req.session.cart);
-  res.status(200).send({ message: 'Sản phẩm đã được thêm vào giỏ hàng' });
+  
+  try {
+    var fishingRod = await fishingRodModel.findById(req.params.id).exec();
+    console.log(fishingRod);
+    if (!fishingRod) {
+      return res.status(404).send({ message: 'Không tìm thấy sản phẩm' });
+    }
+    
+    cart.add(fishingRod, fishingRodId);
+    req.session.cart = cart;
+    console.log(req.session.cart);
+    res.status(200).send({ message: 'Sản phẩm đã được thêm vào giỏ hàng' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng' });
+  }
 });
+
 
 
 // Hàm xử lý thêm sản phẩm vào giỏ hàng
