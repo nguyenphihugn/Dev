@@ -1,299 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fishing-Rods API</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-  <style>
-    .btn-sm-custom {
-      padding: 0.25rem 0.5rem;
-      font-size: 0.875rem;
-      line-height: 1.5;
-      border-radius: 0.2rem;
-    }
-
-    .custom-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-      /* Make sure it's above other content */
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    .custom-button:hover {
-      background-color: #0056b3;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="container mt-5">
-    <h1 class="text-center mb-5">Fishing-Rods API</h1>
-
-    <h2 class="mb-3">Get All Fishing-Rods</h2>
-
-    <div class="container mt-3">
-      <div class="d-flex gap-3 mb-4">
-        <form action="./fishingRods_add.html">
-          <button type="submit" class="btn btn-success">
-            Add Fishing Rod
-          </button>
-        </form>
-        <form action="/template/authors/authors_list.html">
-          <button type="submit" class="btn btn-primary">
-            Author Fishing Rod
-          </button>
-        </form>
-        <form action="/template/items/items_list.html">
-          <button type="submit" class="btn btn-warning">
-            Item Fishing Rod
-          </button>
-        </form>
-        <form action="./fishingRods_Cart.html">
-          <button type="submit" class="btn btn-info">
-            Shopping Cart
-          </button>
-        </form>
-      </div>
-
-      <div class="table-responsive">
-        <table class="table">
-          <thead class="thead-dark">
-            <tr>
-              <th>Name</th>
-              <th>Year</th>
-              <th>Author</th>
-              <th>Price</th>
-              <th> </th>
-              <th> </th>
-              <th> </th>
-            </tr>
-          </thead>
-          <tbody id="fishingRod-list"></tbody>
-        </table>
-      </div>
-
-      <!-- Add the pagination links here -->
-      <nav aria-label="Page navigation" class="d-flex justify-content-center">
-        <ul class="pagination">
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-        </ul>
-      </nav>
-
-      <!-- image predict -->
-      <button onclick="navigateToImagePredict()" class="custom-button">
-        <i class="fas fa-book"></i>
-        Fish Dictionary
-      </button>
-
-    </div>
-  </div>
-  <script>
-    $(document).ready(function () {
-      // Add event listeners for all buttons
-      // $("#getFishingRodById").click(getFishingRodById);
-      // $("#updateFishingRod").click(updateFishingRod);
-    });
-
-    window.onload = async function () {
-      const limit = 8;
-      const page = 1;
-      getAllFishingRods(limit, page);
-
-      //await getAuthors().then(populateAuthorDropdown);
-    };
-
-
-    //<!-- image predict page -->
-    function navigateToImagePredict() {
-      window.location.href = "./imagePredict.html";
-    }
-
-
-    // Function to get all FishingRods
-    async function getAllFishingRods(limit, page) {
-      const response = await $.ajax({
-        url: `http://localhost:3000/fishingRods/?limit=${limit}&page=${page}`,
-        method: "GET",
-      });
-      const fishingRods = response;
-      console.log(fishingRods);
-      const fishingRodList = document.getElementById("fishingRod-list");
-
-      fishingRodList.innerHTML = "";
-
-      fishingRods.forEach((fishingRod) => {
-        const row = document.createElement("tr");
-        console.log(fishingRod._id);
-        console.log(fishingRod.link3D);
-        row.setAttribute("data-fishingRod-id", fishingRod._id);
-        row.setAttribute("data-fishingRod-link3D", fishingRod.link3D);
-        const nameCell = document.createElement("td");
-        const yearCell = document.createElement("td");
-        const authorCell = document.createElement("td");
-        const priceCell = document.createElement("td");
-        const deleteCell = document.createElement("td");
-        const deleteButton = document.createElement("button");
-        const editCell = document.createElement("td");
-        const editButton = document.createElement("button");
-        const viewCell = document.createElement("td");
-        const viewButton = document.createElement("button");
-        const cartCell = document.createElement("td");
-        const cartButton = document.createElement("button");
-
-        nameCell.textContent = fishingRod.name;
-        nameCell.className = "align-middle";
-        yearCell.textContent = fishingRod.year;
-        yearCell.className = "align-middle";
-        authorCell.textContent = fishingRod.author.name;
-        authorCell.className = "align-middle";
-        priceCell.textContent = fishingRod.price ? `${fishingRod.price.toLocaleString('vi-VN')} VND` : "";
-        priceCell.className = "align-middle";
-        deleteButton.textContent = "Delete";
-        deleteButton.className = "btn btn-danger btn-lg-custom";
-        editButton.textContent = "Edit";
-        editButton.className = "btn btn-info btn-lg-custom";
-        viewButton.textContent = "View";
-        viewButton.className = "btn btn-success btn-lg-custom";
-        cartButton.textContent = "Add To Cart";
-        cartButton.className = "btn btn-warning btn-lg-custom";
-
-        // Add an event listener to the delete button
-        deleteButton.addEventListener("click", () => {
-          deleteFishingRod(fishingRod._id);
-        });
-
-        editButton.addEventListener("click", () => {
-          editFishingRod(fishingRod._id);
-        });
-
-        viewButton.addEventListener("click", () => {
-          viewRod(fishingRod.link3D);
-        });
-
-        cartButton.addEventListener("click", () => {
-          addToCartFishingRod(fishingRod._id);
-        });
-
-        deleteCell.appendChild(deleteButton);
-        editCell.appendChild(editButton);
-        viewCell.appendChild(viewButton);
-        cartCell.appendChild(cartButton);
-        row.appendChild(nameCell);
-        row.appendChild(yearCell);
-        row.appendChild(authorCell);
-        row.appendChild(priceCell);
-        row.appendChild(deleteCell);
-        row.appendChild(editCell);
-        row.appendChild(viewCell);
-        row.appendChild(cartCell);
-
-        fishingRodList.appendChild(row);
-      });
-    }
-
-    function editFishingRod(id) {
-      window.location.href = `./fishingRods_edit.html?id=${id}`;
-    }
-    // function cartFishingRod(id) {
-    //   window.location.href = `./fishingRods_edit.html?id=${id}`;
-    // }
-    function viewRod(link3D) {
-      window.location.href = `./modelpage/model.html?id=${link3D}`;
-    }
-
-    async function deleteFishingRod(id) {
-      // Send a DELETE request to the server to delete the FishingRod with the given ID
-      await $.ajax({
-        url: `http://localhost:3000/fishingRods/${id}`,
-        method: "DELETE",
-      });
-      // Remove the row from the table
-      const rowToRemove = document.querySelector(
-        `tr[data-fishingRod-id="${id}"]`
-      );
-      if (rowToRemove) {
-        rowToRemove.remove();
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fishing-Rods API</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <style>
+      .btn-sm-custom {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        border-radius: 0.2rem;
       }
-    }
 
-    async function addToCartFishingRod(id) {
-      // Send a DELETE request to the server to delete the FishingRod with the given ID
-      try {
+      .custom-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        /* Make sure it's above other content */
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+
+      .custom-button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center mb-5">Fishing-Rods API</h1>
+
+      <h2 class="mb-3">Get All Fishing-Rods</h2>
+
+      <div class="container mt-3">
+        <div class="d-flex gap-3 mb-4">
+          <form action="./fishingRods_add.html">
+            <button type="submit" class="btn btn-success">
+              Add Fishing Rod
+            </button>
+          </form>
+          <form action="/template/authors/authors_list.html">
+            <button type="submit" class="btn btn-primary">
+              Author Fishing Rod
+            </button>
+          </form>
+          <form action="/template/items/items_list.html">
+            <button type="submit" class="btn btn-warning">
+              Item Fishing Rod
+            </button>
+          </form>
+          <form action="./fishingRods_Cart.html">
+            <button type="submit" class="btn btn-info">Shopping Cart</button>
+          </form>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th>Name</th>
+                <th>Year</th>
+                <th>Author</th>
+                <th>Price</th>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="fishingRod-list"></tbody>
+          </table>
+        </div>
+
+        <!-- Add the pagination links here -->
+        <nav aria-label="Page navigation" class="d-flex justify-content-center">
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+          </ul>
+        </nav>
+
+        <!-- image predict -->
+        <button onclick="navigateToImagePredict()" class="custom-button">
+          <i class="fas fa-book"></i>
+          Fish Dictionary
+        </button>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        // Add event listeners for all buttons
+        // $("#getFishingRodById").click(getFishingRodById);
+        // $("#updateFishingRod").click(updateFishingRod);
+      });
+
+      window.onload = async function () {
+        const limit = 8;
+        const page = 1;
+        getAllFishingRods(limit, page);
+
+        //await getAuthors().then(populateAuthorDropdown);
+      };
+
+      //<!-- image predict page -->
+      function navigateToImagePredict() {
+        window.location.href = "./imagePredict.html";
+      }
+
+      // Function to get all FishingRods
+      async function getAllFishingRods(limit, page) {
+        const response = await $.ajax({
+          url: `http://localhost:3000/fishingRods/?limit=${limit}&page=${page}`,
+          method: "GET",
+        });
+        const fishingRods = response;
+        console.log(fishingRods);
+        const fishingRodList = document.getElementById("fishingRod-list");
+
+        fishingRodList.innerHTML = "";
+
+        fishingRods.forEach((fishingRod) => {
+          const row = document.createElement("tr");
+          console.log(fishingRod._id);
+          console.log(fishingRod.link3D);
+          row.setAttribute("data-fishingRod-id", fishingRod._id);
+          row.setAttribute("data-fishingRod-link3D", fishingRod.link3D);
+          const nameCell = document.createElement("td");
+          const yearCell = document.createElement("td");
+          const authorCell = document.createElement("td");
+          const priceCell = document.createElement("td");
+          const deleteCell = document.createElement("td");
+          const deleteButton = document.createElement("button");
+          const editCell = document.createElement("td");
+          const editButton = document.createElement("button");
+          const viewCell = document.createElement("td");
+          const viewButton = document.createElement("button");
+          const cartCell = document.createElement("td");
+          const cartButton = document.createElement("button");
+
+          nameCell.textContent = fishingRod.name;
+          nameCell.className = "align-middle";
+          yearCell.textContent = fishingRod.year;
+          yearCell.className = "align-middle";
+          authorCell.textContent = fishingRod.author.name;
+          authorCell.className = "align-middle";
+          priceCell.textContent = fishingRod.price
+            ? `${fishingRod.price.toLocaleString("vi-VN")} VND`
+            : "";
+          priceCell.className = "align-middle";
+          deleteButton.textContent = "Delete";
+          deleteButton.className = "btn btn-danger btn-lg-custom";
+          editButton.textContent = "Edit";
+          editButton.className = "btn btn-info btn-lg-custom";
+          viewButton.textContent = "View";
+          viewButton.className = "btn btn-success btn-lg-custom";
+          cartButton.textContent = "Add To Cart";
+          cartButton.className = "btn btn-warning btn-lg-custom";
+
+          // Add an event listener to the delete button
+          deleteButton.addEventListener("click", () => {
+            deleteFishingRod(fishingRod._id);
+          });
+
+          editButton.addEventListener("click", () => {
+            editFishingRod(fishingRod._id);
+          });
+
+          viewButton.addEventListener("click", () => {
+            viewRod(fishingRod.link3D);
+          });
+
+          cartButton.addEventListener("click", () => {
+            addToCartFishingRod(fishingRod._id);
+          });
+
+          deleteCell.appendChild(deleteButton);
+          editCell.appendChild(editButton);
+          viewCell.appendChild(viewButton);
+          cartCell.appendChild(cartButton);
+          row.appendChild(nameCell);
+          row.appendChild(yearCell);
+          row.appendChild(authorCell);
+          row.appendChild(priceCell);
+          row.appendChild(deleteCell);
+          row.appendChild(editCell);
+          row.appendChild(viewCell);
+          row.appendChild(cartCell);
+
+          fishingRodList.appendChild(row);
+        });
+      }
+
+      function editFishingRod(id) {
+        window.location.href = `./fishingRods_edit.html?id=${id}`;
+      }
+      // function cartFishingRod(id) {
+      //   window.location.href = `./fishingRods_edit.html?id=${id}`;
+      // }
+      function viewRod(link3D) {
+        window.location.href = `./modelpage/model.html?id=${link3D}`;
+      }
+
+      async function deleteFishingRod(id) {
         // Send a DELETE request to the server to delete the FishingRod with the given ID
         await $.ajax({
-          url: `http://localhost:3000/fishingRods/addtocart/${id}`,
-          method: "POST",
+          url: `http://localhost:3000/fishingRods/${id}`,
+          method: "DELETE",
         });
-
-        alert("đã thêm sản phẩm vào giỏ hàng thành công");
-      } catch (error) {
-        console.error("Lỗi:", error);
+        // Remove the row from the table
+        const rowToRemove = document.querySelector(
+          `tr[data-fishingRod-id="${id}"]`
+        );
+        if (rowToRemove) {
+          rowToRemove.remove();
+        }
       }
 
+      async function addToCartFishingRod(id) {
+        // Send a DELETE request to the server to delete the FishingRod with the given ID
+        try {
+          // Send a DELETE request to the server to delete the FishingRod with the given ID
+          await $.ajax({
+            url: `http://localhost:3000/fishingRods/addtocart/${id}`,
+            method: "POST",
+          });
 
-    }
+          alert("Đã thêm sản phẩm vào giỏ hàng thành công");
+        } catch (error) {
+          console.error("Lỗi:", error);
+        }
+      }
 
-
-
-
-    const pageLinks = document.querySelectorAll(".pagination .page-link");
-    pageLinks.forEach((link) => {
-      link.addEventListener("click", (e) => {
-        e.preventDefault();
-        const page = link.textContent;
-        getAllFishingRods(8, page);
+      const pageLinks = document.querySelectorAll(".pagination .page-link");
+      pageLinks.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          const page = link.textContent;
+          getAllFishingRods(8, page);
+        });
       });
-    });
 
-    // Function to get FishingRod by ID
-    async function getFishingRodById() {
-      const id = $("#fishingRodId").val();
-      const response = await $.ajax({
-        url: `http://localhost:3000/fishingRods/${id}`,
-        method: "GET",
-      });
-      $("#fishingRodById").text(JSON.stringify(response, null, 2));
-    }
+      // Function to get FishingRod by ID
+      async function getFishingRodById() {
+        const id = $("#fishingRodId").val();
+        const response = await $.ajax({
+          url: `http://localhost:3000/fishingRods/${id}`,
+          method: "GET",
+        });
+        $("#fishingRodById").text(JSON.stringify(response, null, 2));
+      }
 
-    // Function to add new FishingRod
-    // async function addFishingRod(event) {
-    //   event.preventDefault();
-    //   const name = $("#newFishingRodName").val();
-    //   const year = $("#newFishingRodYear").val();
-    //   const authorSelect = $("#newFishingRodAuthor");
-    //   const authorId = authorSelect.val();
-    //   const authorIdString = String(authorId);
+      // Function to add new FishingRod
+      // async function addFishingRod(event) {
+      //   event.preventDefault();
+      //   const name = $("#newFishingRodName").val();
+      //   const year = $("#newFishingRodYear").val();
+      //   const authorSelect = $("#newFishingRodAuthor");
+      //   const authorId = authorSelect.val();
+      //   const authorIdString = String(authorId);
 
-    //   console.log(authorIdString);
+      //   console.log(authorIdString);
 
-    //   try {
-    //     const response = await $.ajax({
-    //       url: "http://localhost:3000/fishingRods/",
-    //       method: "POST",
-    //       data: { name, year, author: authorIdString },
-    //     });
+      //   try {
+      //     const response = await $.ajax({
+      //       url: "http://localhost:3000/fishingRods/",
+      //       method: "POST",
+      //       data: { name, year, author: authorIdString },
+      //     });
 
-    //     $("#addedFishingRod").text(JSON.stringify(response, null, 2));
-    //     location.reload();
-    //   } catch (error) {
-    //     console.error("Error adding Fishing Rod:", error);
-    //   }
-    // }
-  </script>
-</body>
-
+      //     $("#addedFishingRod").text(JSON.stringify(response, null, 2));
+      //     location.reload();
+      //   } catch (error) {
+      //     console.error("Error adding Fishing Rod:", error);
+      //   }
+      // }
+    </script>
+  </body>
 </html>
